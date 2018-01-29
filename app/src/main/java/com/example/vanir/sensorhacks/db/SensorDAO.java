@@ -1,5 +1,6 @@
 package com.example.vanir.sensorhacks.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -7,9 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.vanir.sensorhacks.db.SensorDB;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Γιώργος on 16/1/2018.
@@ -19,20 +18,23 @@ import java.util.ArrayList;
 public interface SensorDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addSensor(SensorDB sensorDB);
+    void insertAll(List<SensorEntity> sensors);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateSensor(SensorDB sensorDB);
+    void updateSensor(SensorEntity sensor);
 
     @Delete
-    void deleteSensor(SensorDB sensorDB);
+    void deleteSensor(SensorEntity sensor);
 
-    @Query("select * from sensorDB")
-    ArrayList<SensorDB> getallSensor();
+    @Query("SELECT * FROM sensors")
+    LiveData<List<SensorEntity>> loadAllSensors();
 
-    @Query("select * from sensorDB where id = :sensorId")
-    SensorDB getSensor(double sensorId);
+    @Query("SELECT * FROM sensors WHERE id = :sensorId")
+    LiveData<SensorEntity> loadSensor(int sensorId);
 
-    @Query("delete from sensorDB")
-    void removeAllSensor();
+    @Query("SELECT * FROM sensors WHERE id = :sensorId")
+    SensorEntity loadSensorSync(int sensorId);
+
+    @Query("DELETE FROM sensors")
+    void removeAllSensors();
 }
