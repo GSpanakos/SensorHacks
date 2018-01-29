@@ -1,0 +1,23 @@
+<resources>
+    <string name="Temperature_Sensor_DS18B20">DS18B20 Sensor</string>
+    <string name="Humidity_Temperature_Sensor_DHT22">DHT22 Probe</string>
+
+    <string name="app_name">Sensor Hacks</string>
+    <string name="open_ground_hydroponics_bundle">Nodes</string>
+    <string name="rules_engine_bundle">Rules Engine</string>
+    <string name="action_settings">Settings</string>
+    <string name="actuators_bundle">Actuators</string>
+    <string name="sensors_bundle">Sensors</string>
+    <string name="nodes_bundle">Nodes</string>
+    <string name="graphs_bundle">Graphs</string>
+
+    <string name="edit_text_location">Location</string>
+    <string name="plusBtnDescrptn">Add Sensor</string>
+    <string name="minusBtnDescrptn">Remove Sensor</string>
+
+    <string name="Sensor_Name">Name</string>
+    <string name="Sensor_Type">Type</string>
+    <string name="Sensor_Status">Status</string>
+    <string name="Sensor_Value">Value</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="list_view_top_margin">40dp</dimen>
+    <dimen name="list_view_item_margin">84dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="small_activity_vertical_margin">8dp</dimen>
+    <dimen name="right_margin_text_after_pic">18dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="iner_kit_menu_padding">8dp</dimen>
+
+    <dimen name="iner_kit_menu_textsize">32sp</dimen>
+    <dimen name="imagebutton_text_size">24sp</dimen>
+    <dimen name="listview_name_textsize">16sp</dimen>
+</resources>
