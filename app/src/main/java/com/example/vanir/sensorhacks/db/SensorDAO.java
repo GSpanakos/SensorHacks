@@ -7,7 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.vanir.sensorhacks.SensorDB;
+import com.example.vanir.sensorhacks.db.SensorDB;
 
 import java.util.ArrayList;
 
