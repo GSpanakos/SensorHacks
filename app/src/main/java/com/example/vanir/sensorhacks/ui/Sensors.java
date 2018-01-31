@@ -1,26 +1,9 @@
 package com.example.vanir.sensorhacks.ui;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import com.example.vanir.sensorhacks.AppDatabase;
-import com.example.vanir.sensorhacks.CustomSensorsAdapter;
-import com.example.vanir.sensorhacks.R;
-import com.example.vanir.sensorhacks.SensorDB;
 import com.example.vanir.sensorhacks.model.Sensor;
-
-import java.util.ArrayList;
 
 
 /**

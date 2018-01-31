@@ -1,6 +1,7 @@
 package com.example.vanir.sensorhacks.db;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.example.vanir.sensorhacks.model.Sensor;
@@ -65,6 +66,7 @@ public class SensorEntity implements Sensor {
         this.value = value;
     }
 
+    @Ignore
     public SensorEntity() {
     }
 
@@ -76,6 +78,7 @@ public class SensorEntity implements Sensor {
         this.value = value;
     }
 
+    @Ignore
     public SensorEntity(Sensor sensor) {
         this.id = sensor.getId();
         this.name = sensor.getName();

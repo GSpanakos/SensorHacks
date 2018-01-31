@@ -1,10 +1,13 @@
 package com.example.vanir.sensorhacks.ui;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.example.vanir.sensorhacks.databinding.SensorItemBinding;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.model.Sensor;
 
@@ -67,7 +70,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
     @Override
     public SensorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         SensorItemBinding binding = DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()), R.layout.product_item,
+                .inflate(LayoutInflater.from(parent.getContext()), R.layout.sensor_item,
                         parent, false);
         binding.setCallback(mSensorClickCallback);
         return new SensorViewHolder(binding);
@@ -88,7 +91,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
 
         final SensorItemBinding binding;
 
-        public ProductViewHolder(SensorItemBinding binding) {
+        public SensorViewHolder(SensorItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

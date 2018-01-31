@@ -1,6 +1,7 @@
 package com.example.vanir.sensorhacks.ui;
 
 import android.view.View;
+import android.databinding.BindingAdapter;
 
 /**
  * Created by Γιώργος on 31/1/2018.

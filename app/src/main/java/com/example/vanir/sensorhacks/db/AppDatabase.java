@@ -10,13 +10,15 @@ import android.arch.persistence.room.RoomDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.example.vanir.sensorhacks.AppExecutors;
+
 import java.util.List;
 
 /**
  * Created by Γιώργος on 16/1/2018.
  */
 
-@Database(entities = {SensorEntity.class}, version = 2)
+@Database(entities = {SensorEntity.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

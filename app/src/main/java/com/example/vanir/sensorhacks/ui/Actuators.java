@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.vanir.sensorhacks.R;
-
 
 /**
  * Created by Γιώργος on 16/11/2016.

@@ -4,6 +4,8 @@ package com.example.vanir.sensorhacks;
  * Created by Γιώργος on 31/1/2018.
  */
 
+import com.example.vanir.sensorhacks.db.AppDatabase;
+
 /**
  * Android Application class. Used for accessing singletons.
  */

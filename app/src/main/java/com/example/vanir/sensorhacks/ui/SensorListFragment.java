@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.model.Sensor;
+import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
 
 import java.util.List;
 
