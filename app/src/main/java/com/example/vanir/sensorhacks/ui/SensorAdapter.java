@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.vanir.sensorhacks.databinding.SensorItemBinding;
 import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.databinding.SensorItemBinding;
 import com.example.vanir.sensorhacks.model.Sensor;
 
 import java.util.List;

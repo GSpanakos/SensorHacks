@@ -3,6 +3,8 @@ package com.example.vanir.sensorhacks.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.model.Sensor;
 
 
@@ -20,8 +22,7 @@ public class Sensors extends AppCompatActivity {
         if (savedInstanceState == null) {
             SensorListFragment fragment = new SensorListFragment();
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, fragment, SensorListFragment.TAG).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, SensorListFragment.TAG).commit();
         }
     }
 
@@ -32,11 +33,7 @@ public class Sensors extends AppCompatActivity {
 
         SensorFragment sensorFragment = SensorFragment.forSensor(sensor.getId());
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("sensor")
-                .replace(R.id.fragment_container,
-                        sensorFragment, null).commit();
+        getSupportFragmentManager().beginTransaction().addToBackStack("sensor").replace(R.id.fragment_container, sensorFragment, null).commit();
     }
 }
 

@@ -1,15 +1,18 @@
 package com.example.vanir.sensorhacks.ui;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.databinding.ListFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
