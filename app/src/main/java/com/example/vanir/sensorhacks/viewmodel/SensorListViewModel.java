@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
+import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 
 import java.util.List;

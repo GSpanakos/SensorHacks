@@ -5,8 +5,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
+import com.example.vanir.sensorhacks.BasicApp;
+import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 
 import java.util.List;
