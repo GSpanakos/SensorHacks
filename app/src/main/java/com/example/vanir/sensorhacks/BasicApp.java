@@ -6,10 +6,12 @@ package com.example.vanir.sensorhacks;
 
 import com.example.vanir.sensorhacks.db.AppDatabase;
 
+import android.app.Application;
+
 /**
  * Android Application class. Used for accessing singletons.
  */
-public class BasicApp {
+public class BasicApp extends Application {
 
     private AppExecutors mAppExecutors;
 

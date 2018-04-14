@@ -18,7 +18,7 @@ public class Sensors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sns);
 
-        // Add product list fragment if this is first creation
+        // Add sensor list fragment if this is first creation
         if (savedInstanceState == null) {
             SensorListFragment fragment = new SensorListFragment();
 
@@ -27,7 +27,7 @@ public class Sensors extends AppCompatActivity {
     }
 
     /**
-     * Shows the product detail fragment
+     * Shows the sensor detail fragment
      */
     public void show(Sensor sensor) {
 

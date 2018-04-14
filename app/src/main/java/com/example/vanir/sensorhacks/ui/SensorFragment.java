@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
-import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 

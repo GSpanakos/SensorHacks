@@ -24,7 +24,7 @@
 
         <include
             layout="@layout/sensor_item"
-            app:product="@{sensorViewModel.sensor}" />
+            app:sensor="@{sensorViewModel.sensor}" />
 
     </LinearLayout>
 </layout>
