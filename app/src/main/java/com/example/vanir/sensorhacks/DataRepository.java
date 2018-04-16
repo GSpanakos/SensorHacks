@@ -13,7 +13,7 @@ import com.example.vanir.sensorhacks.db.SensorEntity;
 import java.util.List;
 
 /**
- * Repository handling the work with products and comments.
+ * Repository handling the work with sensors.
  */
 public class DataRepository {
 
@@ -46,7 +46,7 @@ public class DataRepository {
     }
 
     /**
-     * Get the list of products from the database and get notified when the data changes.
+     * Get the list of sensors from the database and get notified when the data changes.
      */
     public LiveData<List<SensorEntity>> getSensors() {
         return mObservableSensors;

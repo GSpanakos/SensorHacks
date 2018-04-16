@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;

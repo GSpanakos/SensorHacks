@@ -62,7 +62,7 @@ public class SensorFragment extends Fragment {
     }
 
     /**
-     * Creates product fragment for specific product ID
+     * Creates sensor fragment for specific sensor ID
      */
     public static SensorFragment forSensor(int sensorId) {
         SensorFragment fragment = new SensorFragment();
