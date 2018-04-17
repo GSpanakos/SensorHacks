@@ -35,7 +35,7 @@ public class SensorViewModel extends AndroidViewModel {
     }
 
     /**
-     * Expose the LiveData Comments query so the UI can observe it.
+     * Expose the LiveData Sensor query so the UI can observe it.
      */
     public LiveData<SensorEntity> getObservableSensor() {
         return mObservableSensor;

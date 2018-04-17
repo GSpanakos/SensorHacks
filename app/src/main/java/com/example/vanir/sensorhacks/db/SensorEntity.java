@@ -66,7 +66,7 @@ public class SensorEntity implements Sensor {
         this.value = value;
     }
 
-    @Ignore
+
     public SensorEntity() {
     }
 
@@ -78,7 +78,7 @@ public class SensorEntity implements Sensor {
         this.value = value;
     }
 
-    @Ignore
+
     public SensorEntity(Sensor sensor) {
         this.id = sensor.getId();
         this.name = sensor.getName();
