@@ -21,7 +21,6 @@ public class Sensors extends AppCompatActivity {
         // Add sensor list fragment if this is first creation
         if (savedInstanceState == null) {
             SensorListFragment fragment = new SensorListFragment();
-
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, SensorListFragment.TAG).commit();
         }
     }
@@ -32,7 +31,6 @@ public class Sensors extends AppCompatActivity {
     public void show(Sensor sensor) {
 
         SensorFragment sensorFragment = SensorFragment.forSensor(sensor.getId());
-
         getSupportFragmentManager().beginTransaction().addToBackStack("sensor").replace(R.id.fragment_container, sensorFragment, null).commit();
     }
 }
