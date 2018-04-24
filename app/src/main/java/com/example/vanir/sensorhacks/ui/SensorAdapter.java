@@ -3,11 +3,13 @@ package com.example.vanir.sensorhacks.ui;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 
-
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.SparseBooleanArray;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;
@@ -24,6 +26,8 @@ import java.util.Objects;
 public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorViewHolder> {
 
     List<? extends Sensor> mSensorList;
+    private SparseBooleanArray selectedItems;
+
 
     @Nullable
     private final SensorClickCallback mSensorClickCallback;
@@ -90,7 +94,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
         return mSensorList == null ? 0 : mSensorList.size();
     }
 
-    static class SensorViewHolder extends RecyclerView.ViewHolder {
+    public class SensorViewHolder extends RecyclerView.ViewHolder {
 
         final SensorItemBinding binding;
 
