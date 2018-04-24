@@ -8,4 +8,6 @@ import com.example.vanir.sensorhacks.model.Sensor;
 
 public interface SensorClickCallback {
     void onClick(Sensor sensor);
+
+    void onLongClick(Sensor sensor);
 }

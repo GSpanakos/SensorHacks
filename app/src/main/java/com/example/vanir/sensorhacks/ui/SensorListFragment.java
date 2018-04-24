@@ -78,5 +78,10 @@ public class SensorListFragment extends Fragment {
                 ((Sensors) getActivity()).show(sensor);
             }
         }
+
+        @Override
+        public void onLongClick(Sensor sensor) {
+
+        }
     };
 }

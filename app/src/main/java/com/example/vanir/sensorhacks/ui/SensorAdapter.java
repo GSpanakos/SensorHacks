@@ -7,9 +7,7 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.SparseBooleanArray;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;
@@ -27,7 +25,6 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
 
     List<? extends Sensor> mSensorList;
     private SparseBooleanArray selectedItems;
-
 
     @Nullable
     private final SensorClickCallback mSensorClickCallback;
@@ -102,5 +99,6 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
             super(binding.getRoot());
             this.binding = binding;
         }
+
     }
 }
