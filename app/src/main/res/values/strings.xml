@@ -19,11 +19,13 @@
     <string name="Sensor_Type">Type</string>
     <string name="Sensor_Status">Status</string>
     <string name="Sensor_Value">Value</string>
+    <string name="Sensor_Id">Id</string>
 
     <string name="Name_Hint">Insert Sensor name</string>
     <string name="Type_Hint">Insert Sensor type</string>
     <string name="Status_On">Sensor Online</string>
     <string name="Status_Off">Sensor Offline</string>
     <string name="Value_Hint">Insert Sensor value</string>
+    <string name="Id_Hint">Insert Sensor unique Id</string>
 
 </resources>
