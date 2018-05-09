@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.ListFragmentBinding;
@@ -26,9 +27,7 @@ import java.util.List;
 public class SensorListFragment extends Fragment {
 
     public static final String TAG = "SensorListViewModel";
-
     private SensorAdapter mSensorAdapter;
-
     private ListFragmentBinding mBinding;
 
     @Nullable
@@ -36,10 +35,8 @@ public class SensorListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.list_fragment, container, false);
-
         mSensorAdapter = new SensorAdapter(mSensorClickCallback);
         mBinding.sensorsList.setAdapter(mSensorAdapter);
-
         return mBinding.getRoot();
     }
 
@@ -73,15 +70,11 @@ public class SensorListFragment extends Fragment {
     private final SensorClickCallback mSensorClickCallback = new SensorClickCallback() {
         @Override
         public void onClick(Sensor sensor) {
-
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
                 ((Sensors) getActivity()).show(sensor);
             }
         }
-
-        @Override
-        public void onLongClick(Sensor sensor) {
-
-        }
     };
+
+
 }

@@ -20,6 +20,9 @@ public interface SensorDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<SensorEntity> sensors);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(SensorEntity Sensor);
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateSensor(SensorEntity sensor);
 

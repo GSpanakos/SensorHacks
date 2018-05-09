@@ -7,7 +7,9 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.SparseBooleanArray;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;
@@ -24,7 +26,6 @@ import java.util.Objects;
 public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorViewHolder> {
 
     List<? extends Sensor> mSensorList;
-    private SparseBooleanArray selectedItems;
 
     @Nullable
     private final SensorClickCallback mSensorClickCallback;
@@ -73,9 +74,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
 
     @Override
     public SensorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SensorItemBinding binding = DataBindingUtil
-                .inflate(LayoutInflater.from(parent.getContext()), R.layout.sensor_item,
-                        parent, false);
+        SensorItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.sensor_item, parent, false);
         binding.setCallback(mSensorClickCallback);
         return new SensorViewHolder(binding);
     }

@@ -14,6 +14,15 @@
         <variable
             name="sensorViewModel"
             type="com.example.vanir.sensorhacks.viewmodel.SensorViewModel" />
+
+        <variable
+            name="sensor"
+            type="com.example.vanir.sensorhacks.model.Sensor" />
+
+        <variable
+            name="callback"
+            type="com.example.vanir.sensorhacks.ui.SensorFragment" />
+
     </data>
 
     <LinearLayout
@@ -25,6 +34,14 @@
         <include
             layout="@layout/sensor_item"
             app:sensor="@{sensorViewModel.sensor}" />
+
+        <Button
+            android:id="@+id/delete_sensor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minusBtnDescrptn"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
     </LinearLayout>
 </layout>

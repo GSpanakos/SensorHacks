@@ -3,16 +3,20 @@ package com.example.vanir.sensorhacks.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
+import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 
@@ -23,8 +27,8 @@ import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 public class SensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
-
     private SensorFragmentBinding mBinding;
+    private AppDatabase appDatabase;
 
     @Nullable
     @Override
@@ -71,5 +75,6 @@ public class SensorFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
 }

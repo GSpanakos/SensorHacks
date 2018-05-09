@@ -1,11 +1,16 @@
 package com.example.vanir.sensorhacks.ui;
 
+import android.databinding.generated.callback.OnClickListener;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.model.Sensor;
@@ -16,12 +21,25 @@ import com.example.vanir.sensorhacks.model.Sensor;
  */
 public class Sensors extends AppCompatActivity {
 
+    FloatingActionButton fab;
+    private static final String TAG = "Sensors";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sns);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fab = (findViewById(R.id.fabadd));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: pressed!");
+                AddSensorFragment addSensorFragment = new AddSensorFragment();
+                getSupportFragmentManager().beginTransaction().addToBackStack("addsensor").replace(R.id.fragment_container, addSensorFragment, null).commit();
+            }
+        });
 
         // Add sensor list fragment if this is first creation
         if (savedInstanceState == null) {
