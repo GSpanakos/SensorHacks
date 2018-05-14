@@ -1,6 +1,7 @@
 package com.example.vanir.sensorhacks.ui;
 
 import android.arch.lifecycle.Lifecycle;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -31,10 +32,6 @@ public class AddSensorFragment extends Fragment {
     public SensorEntity sensor;
     Boolean toggleButton = false;
     AppDatabase db;
-
-    public AddSensorFragment() {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,5 +68,6 @@ public class AddSensorFragment extends Fragment {
 
         return mBinding.getRoot();
     }
+
 
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.AppDatabase;
@@ -31,8 +32,9 @@ public class SensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     private SensorFragmentBinding mBinding;
-    private AppDatabase appDatabase;
     private static final String TAG = "Delete_Sensor";
+    public static int mSensorId;
+
 
     @Nullable
     @Override
@@ -43,7 +45,8 @@ public class SensorFragment extends Fragment {
         mBinding.deleteSensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: ");
+                Log.d(TAG, "onClick: " + mSensorId);
+                SensorViewModel.deleteSensorTask();
             }
         });
 
@@ -80,6 +83,7 @@ public class SensorFragment extends Fragment {
      * Creates sensor fragment for specific sensor ID
      */
     public static SensorFragment forSensor(int sensorId) {
+        mSensorId = sensorId;
         SensorFragment fragment = new SensorFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_SENSOR_ID, sensorId);

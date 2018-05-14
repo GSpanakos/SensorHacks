@@ -56,6 +56,10 @@ public class DataRepository {
         return mDatabase.sensorDAO().loadSensor(sensorId);
     }
 
+    public SensorEntity loadSensorSync(final int sensorId) {
+        return mDatabase.sensorDAO().loadSensorSync(sensorId);
+    }
+
     public void insert(SensorEntity sensorEntity) {
         mDatabase.sensorDAO().insert(sensorEntity);
     }

@@ -5,11 +5,14 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.content.Context;
 import android.databinding.ObservableField;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
+import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 
 import java.util.List;
@@ -21,16 +24,15 @@ import java.util.List;
 public class SensorViewModel extends AndroidViewModel {
 
     private final LiveData<SensorEntity> mObservableSensor;
-
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
-
     private final int mSensorId;
+    public static DataRepository nRepository;
+    public static int nSensorId;
 
     public SensorViewModel(@NonNull Application application, DataRepository repository,
                            final int sensorId) {
         super(application);
         mSensorId = sensorId;
-
         mObservableSensor = repository.loadSensor(mSensorId);
     }
 
@@ -64,6 +66,8 @@ public class SensorViewModel extends AndroidViewModel {
             mApplication = application;
             mSensorId = sensorId;
             mRepository = ((BasicApp) application).getRepository();
+            nRepository = mRepository;
+            nSensorId = mSensorId;
         }
 
         @Override
@@ -73,4 +77,26 @@ public class SensorViewModel extends AndroidViewModel {
         }
     }
 
+    public static void deleteSensorTask() {
+        DeleteSensorTask task = new DeleteSensorTask();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
+                task.execute(dsensor);
+            }
+        });
+
+    }
+
+    private static class DeleteSensorTask extends AsyncTask<SensorEntity, Void, Void> {
+
+        @Override
+        protected Void doInBackground(SensorEntity... sensorEntities) {
+            nRepository.delete(sensorEntities[0]);
+            return null;
+        }
+    }
 }
+
+
