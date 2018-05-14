@@ -18,11 +18,11 @@ import java.util.List;
 public class DataRepository {
 
     private static DataRepository sInstance;
-
     private final AppDatabase mDatabase;
     private MediatorLiveData<List<SensorEntity>> mObservableSensors;
 
     private DataRepository(final AppDatabase database) {
+
         mDatabase = database;
         mObservableSensors = new MediatorLiveData<>();
 
@@ -54,6 +54,14 @@ public class DataRepository {
 
     public LiveData<SensorEntity> loadSensor(final int sensorId) {
         return mDatabase.sensorDAO().loadSensor(sensorId);
+    }
+
+    public void insert(SensorEntity sensorEntity) {
+        mDatabase.sensorDAO().insert(sensorEntity);
+    }
+
+    public void delete(SensorEntity sensorEntity) {
+        mDatabase.sensorDAO().deleteSensor(sensorEntity);
     }
 
 }

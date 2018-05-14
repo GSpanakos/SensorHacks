@@ -29,7 +29,7 @@ public class AddSensorFragment extends Fragment {
     AddSensorFragmentBinding mBinding;
     public static final String TAG = "add sensor to db";
     public SensorEntity sensor;
-    Boolean toggleButton;
+    Boolean toggleButton = false;
     AppDatabase db;
 
     public AddSensorFragment() {
@@ -66,9 +66,6 @@ public class AddSensorFragment extends Fragment {
                         toggleButton,
                         Double.parseDouble(mBinding.editTextvalue.getText().toString()));
 
-                db.runInTransaction(() -> {
-                    db.sensorDAO().insert(sensor);
-                });
             }
         });
 
