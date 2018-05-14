@@ -52,6 +52,10 @@ public class DataRepository {
         return mObservableSensors;
     }
 
+    public List<SensorEntity> loadAllSensorsSync() {
+        return mDatabase.sensorDAO().loadAllSensorsSync();
+    }
+
     public LiveData<SensorEntity> loadSensor(final int sensorId) {
         return mDatabase.sensorDAO().loadSensor(sensorId);
     }

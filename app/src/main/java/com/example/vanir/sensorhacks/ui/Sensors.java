@@ -1,7 +1,5 @@
 package com.example.vanir.sensorhacks.ui;
 
-import android.databinding.generated.callback.OnClickListener;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;

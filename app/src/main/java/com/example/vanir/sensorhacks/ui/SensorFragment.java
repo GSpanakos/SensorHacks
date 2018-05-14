@@ -3,8 +3,6 @@ package com.example.vanir.sensorhacks.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
-import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,14 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
-import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
-import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 
@@ -32,7 +26,7 @@ public class SensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     private SensorFragmentBinding mBinding;
-    private static final String TAG = "Delete_Sensor";
+    private static final String TAG = "Delete_Sensor", TAG2 = "After_Delete_Frag";
     public static int mSensorId;
 
 
@@ -47,6 +41,7 @@ public class SensorFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + mSensorId);
                 SensorViewModel.deleteSensorTask();
+                getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
             }
         });
 

@@ -32,6 +32,9 @@ public interface SensorDAO {
     @Query("SELECT * FROM sensors")
     LiveData<List<SensorEntity>> loadAllSensors();
 
+    @Query("SELECT * FROM sensors")
+    List<SensorEntity> loadAllSensorsSync();
+
     @Query("SELECT * FROM sensors WHERE id = :sensorId")
     LiveData<SensorEntity> loadSensor(int sensorId);
 

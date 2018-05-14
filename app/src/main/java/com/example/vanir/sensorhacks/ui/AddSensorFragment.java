@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import com.example.vanir.sensorhacks.AppExecutors;
+import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.AddSensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
 
 import static android.content.ContentValues.TAG;
 
@@ -28,8 +31,8 @@ public class AddSensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     AddSensorFragmentBinding mBinding;
-    public static final String TAG = "add sensor to db";
-    public SensorEntity sensor;
+    public static final String TAG = "add_sensor_to_db";
+    public SensorEntity mSensor;
     Boolean toggleButton = false;
     AppDatabase db;
 
@@ -57,12 +60,14 @@ public class AddSensorFragment extends Fragment {
                 Log.d(TAG, "onClick: Status: " + toggleButton.toString());
                 Log.d(TAG, "onClick: Value: " + mBinding.editTextvalue.getText().toString());
 
-                sensor = new SensorEntity(Integer.parseInt(mBinding.uniqueId.getText().toString()),
+                mSensor = new SensorEntity(Integer.parseInt(mBinding.uniqueId.getText().toString()),
                         mBinding.editTextname.getText().toString(),
                         mBinding.editTexttype.getText().toString(),
                         toggleButton,
                         Double.parseDouble(mBinding.editTextvalue.getText().toString()));
 
+                SensorListViewModel.insertSensorTask(mSensor);
+                getFragmentManager().beginTransaction().addToBackStack(TAG).replace(R.id.fragment_container, new SensorListFragment(), TAG).commit();
             }
         });
 
