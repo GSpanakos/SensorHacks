@@ -57,9 +57,9 @@ public class SensorListViewModel extends AndroidViewModel {
                 List<SensorEntity> allTheSensors = ((BasicApp) mApplication).getRepository().loadAllSensorsSync();
                 for (int i = 0; i < allTheSensors.size(); i++) {
                     if (allTheSensors.get(i).getId() == sensor.getId()) {
-                        new Exception("Eisai mpoufos vale allo id");
                         Log.d(TAG, "run: Eisai mpoufos vale allo id");
                         flag = 1;
+                        new Exception("Eisai mpoufos vale allo id");
                     } else {
                         flag = 0;
                     }
@@ -78,6 +78,7 @@ public class SensorListViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(SensorEntity... sensorEntities) {
             ((BasicApp) mApplication).getRepository().insert(sensorEntities[0]);
+
             return null;
         }
     }

@@ -57,9 +57,7 @@ public class SensorViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application mApplication;
-
         private final int mSensorId;
-
         private final DataRepository mRepository;
 
         public Factory(@NonNull Application application, int sensorId) {
@@ -77,16 +75,15 @@ public class SensorViewModel extends AndroidViewModel {
         }
     }
 
-    public static void deleteSensorTask() {
+    public static void deleteSensorTask(int sensorId) {
         DeleteSensorTask task = new DeleteSensorTask();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
+                SensorEntity dsensor = nRepository.loadSensorSync(sensorId);
                 task.execute(dsensor);
             }
         });
-
     }
 
     private static class DeleteSensorTask extends AsyncTask<SensorEntity, Void, Void> {

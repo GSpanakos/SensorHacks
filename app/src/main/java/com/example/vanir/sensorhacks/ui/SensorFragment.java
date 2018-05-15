@@ -30,6 +30,7 @@ public class SensorFragment extends Fragment {
     public static int mSensorId;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -40,7 +41,7 @@ public class SensorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + mSensorId);
-                SensorViewModel.deleteSensorTask();
+                SensorViewModel.deleteSensorTask(mSensorId);
                 getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
             }
         });
