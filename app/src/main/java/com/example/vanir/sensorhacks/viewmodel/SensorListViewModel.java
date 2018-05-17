@@ -25,7 +25,7 @@ public class SensorListViewModel extends AndroidViewModel {
     private final MediatorLiveData<List<SensorEntity>> mObservableSensors;
     public static final String TAG = "add_sensor_to_db";
     public static Application mApplication;
-    public static int flag = 1;
+    public static int flag = 0;
 
     public SensorListViewModel(Application application) {
         super(application);
@@ -55,17 +55,24 @@ public class SensorListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 List<SensorEntity> allTheSensors = ((BasicApp) mApplication).getRepository().loadAllSensorsSync();
-                for (int i = 0; i < allTheSensors.size(); i++) {
-                    if (allTheSensors.get(i).getId() == sensor.getId()) {
-                        Log.d(TAG, "run: Eisai mpoufos vale allo id");
-                        flag = 1;
-                        new Exception("Eisai mpoufos vale allo id");
-                    } else {
-                        flag = 0;
+                if (allTheSensors.size() != 0) {
+                    Log.d(TAG, "run: what now");
+                    for (int i = 0; i < allTheSensors.size(); i++) {
+                        if (allTheSensors.get(i).getId() == sensor.getId()) {
+                            Log.d(TAG, "run: Eisai mpoufos vale allo id");
+                            flag = 1;
+                            new Exception("Eisai mpoufos vale allo id");
+                            break;
+                        } else {
+                            flag = 0;
+                        }
                     }
                 }
                 if (flag == 0) {
+                    Log.d(TAG, "run: flag: " + flag);
                     task.execute(sensor);
+                } else {
+                    Log.d(TAG, "run: flag: " + flag);
                 }
             }
         });
