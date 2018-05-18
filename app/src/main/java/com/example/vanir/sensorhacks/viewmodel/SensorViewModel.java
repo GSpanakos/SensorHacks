@@ -25,7 +25,7 @@ public class SensorViewModel extends AndroidViewModel {
 
     private final LiveData<SensorEntity> mObservableSensor;
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
-    private final int mSensorId;
+    public final int mSensorId;
     public static DataRepository nRepository;
     public static int nSensorId;
 
@@ -34,6 +34,9 @@ public class SensorViewModel extends AndroidViewModel {
         super(application);
         mSensorId = sensorId;
         mObservableSensor = repository.loadSensor(mSensorId);
+
+        nRepository = repository;
+        nSensorId = sensorId;
     }
 
     /**
@@ -57,15 +60,13 @@ public class SensorViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application mApplication;
-        private final int mSensorId;
-        private final DataRepository mRepository;
+        public final int mSensorId;
+        public final DataRepository mRepository;
 
         public Factory(@NonNull Application application, int sensorId) {
             mApplication = application;
             mSensorId = sensorId;
             mRepository = ((BasicApp) application).getRepository();
-            nRepository = mRepository;
-            nSensorId = mSensorId;
         }
 
         @Override
@@ -80,7 +81,7 @@ public class SensorViewModel extends AndroidViewModel {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SensorEntity dsensor = nRepository.loadSensorSync(sensorId);
+                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
                 task.execute(dsensor);
             }
         });

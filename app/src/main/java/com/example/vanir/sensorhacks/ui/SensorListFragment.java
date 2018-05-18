@@ -17,6 +17,7 @@ import com.example.vanir.sensorhacks.databinding.ListFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
+import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 import java.util.List;
 
@@ -43,8 +44,12 @@ public class SensorListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        SensorListViewModel.Factory factory = new SensorListViewModel.Factory(
+                getActivity().getApplication());
+
         final SensorListViewModel viewModel =
-                ViewModelProviders.of(this).get(SensorListViewModel.class);
+                ViewModelProviders.of(this, factory).get(SensorListViewModel.class);
 
         subscribeUi(viewModel);
     }

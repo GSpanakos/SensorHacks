@@ -4,7 +4,10 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -26,22 +29,40 @@ public class SensorListViewModel extends AndroidViewModel {
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<SensorEntity>> mObservableSensors;
     public static final String TAG = "add_sensor_to_db";
-    public static Application mApplication;
     public static int flag = 0;
+    public static DataRepository nRepository;
 
-    public SensorListViewModel(Application application) {
+    public SensorListViewModel(Application application, DataRepository repository) {
         super(application);
-        mApplication = application;
+
+        nRepository = repository;
 
         mObservableSensors = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
         mObservableSensors.setValue(null);
 
-        LiveData<List<SensorEntity>> sensors = ((BasicApp) application).getRepository()
+        LiveData<List<SensorEntity>> sensors = repository
                 .getSensors();
 
         // observe the changes of the sensors from the database and forward them
         mObservableSensors.addSource(sensors, mObservableSensors::setValue);
+    }
+
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+        @NonNull
+        private final Application mApplication;
+        public final DataRepository mRepository;
+
+        public Factory(@NonNull Application application) {
+            mApplication = application;
+            mRepository = ((BasicApp) application).getRepository();
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            //noinspection unchecked
+            return (T) new SensorListViewModel(mApplication, mRepository);
+        }
     }
 
     /**
@@ -56,7 +77,7 @@ public class SensorListViewModel extends AndroidViewModel {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                List<SensorEntity> allTheSensors = ((BasicApp) mApplication).getRepository().loadAllSensorsSync();
+                List<SensorEntity> allTheSensors = nRepository.loadAllSensorsSync();
                 if (allTheSensors.size() != 0) {
                     for (int i = 0; i < allTheSensors.size(); i++) {
                         if (allTheSensors.get(i).getId() == sensor.getId()) {
@@ -86,7 +107,7 @@ public class SensorListViewModel extends AndroidViewModel {
 
         @Override
         protected Void doInBackground(SensorEntity... sensorEntities) {
-            ((BasicApp) mApplication).getRepository().insert(sensorEntities[0]);
+            nRepository.insert(sensorEntities[0]);
             return null;
         }
     }
