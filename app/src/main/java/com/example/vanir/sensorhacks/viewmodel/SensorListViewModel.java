@@ -5,7 +5,9 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 
 import com.example.vanir.sensorhacks.AppExecutors;
 import com.example.vanir.sensorhacks.BasicApp;
@@ -49,14 +51,13 @@ public class SensorListViewModel extends AndroidViewModel {
         return mObservableSensors;
     }
 
-    public static void insertSensorTask(SensorEntity sensor) {
+    public static void insertSensorTask(SensorEntity sensor, View v) {
         InsertSensorTask task = new InsertSensorTask();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 List<SensorEntity> allTheSensors = ((BasicApp) mApplication).getRepository().loadAllSensorsSync();
                 if (allTheSensors.size() != 0) {
-                    Log.d(TAG, "run: what now");
                     for (int i = 0; i < allTheSensors.size(); i++) {
                         if (allTheSensors.get(i).getId() == sensor.getId()) {
                             Log.d(TAG, "run: Eisai mpoufos vale allo id");
@@ -73,6 +74,7 @@ public class SensorListViewModel extends AndroidViewModel {
                     task.execute(sensor);
                 } else {
                     Log.d(TAG, "run: flag: " + flag);
+                    Snackbar.make(v, "The id is used", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
@@ -85,7 +87,6 @@ public class SensorListViewModel extends AndroidViewModel {
         @Override
         protected Void doInBackground(SensorEntity... sensorEntities) {
             ((BasicApp) mApplication).getRepository().insert(sensorEntities[0]);
-
             return null;
         }
     }
