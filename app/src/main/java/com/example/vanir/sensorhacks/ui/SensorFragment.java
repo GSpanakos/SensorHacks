@@ -40,7 +40,7 @@ public class SensorFragment extends Fragment {
         mBinding.deleteSensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: " + mSensorId);
+                Log.d(TAG, "onClick :" + mSensorId);
                 SensorViewModel.deleteSensorTask(mSensorId);
                 getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
             }
