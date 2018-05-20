@@ -6,17 +6,19 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.vanir.sensorhacks.AppExecutors;
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
-import com.example.vanir.sensorhacks.db.AppDatabase;
+import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.ui.SensorListFragment;
 
 import java.util.List;
 
@@ -28,9 +30,9 @@ public class SensorListViewModel extends AndroidViewModel {
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<SensorEntity>> mObservableSensors;
-    public static final String TAG = "add_sensor_to_db";
-    public static int flag = 0;
-    public static DataRepository nRepository;
+    private static final String TAG = "add_sensor_to_db";
+    private static int flag;
+    private static DataRepository nRepository;
 
     public SensorListViewModel(Application application, DataRepository repository) {
         super(application);
@@ -72,8 +74,9 @@ public class SensorListViewModel extends AndroidViewModel {
         return mObservableSensors;
     }
 
-    public static void insertSensorTask(SensorEntity sensor, View v) {
+    public static void insertSensorTask(SensorEntity sensor, View view) {
         InsertSensorTask task = new InsertSensorTask();
+        flag = 0;
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -83,19 +86,16 @@ public class SensorListViewModel extends AndroidViewModel {
                         if (allTheSensors.get(i).getId() == sensor.getId()) {
                             Log.d(TAG, "run: Eisai mpoufos vale allo id");
                             flag = 1;
-                            new Exception("Eisai mpoufos vale allo id");
                             break;
-                        } else {
-                            flag = 0;
                         }
                     }
                 }
                 if (flag == 0) {
-                    Log.d(TAG, "run: flag: " + flag);
                     task.execute(sensor);
+                    startNewFrag(view);
                 } else {
-                    Log.d(TAG, "run: flag: " + flag);
-                    Snackbar.make(v, "The id is used", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(view, "The id is used, try again", Snackbar.LENGTH_LONG).setAction("Id in use", null).show();
+                    Log.d(TAG, "run: no sensor added");
                 }
             }
         });
@@ -110,5 +110,16 @@ public class SensorListViewModel extends AndroidViewModel {
             nRepository.insert(sensorEntities[0]);
             return null;
         }
+
+
     }
+
+    public static void startNewFrag(View view) {
+        Context context = view.getContext();
+        if (context instanceof FragmentActivity) {
+            FragmentActivity fragmentActivity = (FragmentActivity) context;
+            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAG).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+        }
+    }
+
 }
