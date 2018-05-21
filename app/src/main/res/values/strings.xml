@@ -28,4 +28,7 @@
     <string name="Value_Hint">Insert Sensor value</string>
     <string name="Id_Hint">Insert Sensor unique Id</string>
 
+    <string name="Bar_Chart">Bar Chart</string>
+    <string name="Line_Chart">Line Chart</string>
+
 </resources>
