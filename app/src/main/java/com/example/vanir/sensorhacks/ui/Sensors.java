@@ -19,7 +19,7 @@ import com.example.vanir.sensorhacks.model.Sensor;
  */
 public class Sensors extends AppCompatActivity {
 
-    FloatingActionButton fab;
+    public FloatingActionButton fab;
     private static final String TAG = "Sensors";
 
     @Override
