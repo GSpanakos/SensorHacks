@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.vanir.sensorhacks.ui.Graphs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="60dp">
+
+    <LinearLayout
+        android:id="@+id/bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/iner_kit_menu_padding">
+
+        <TextView
+            android:id="@+id/bar_chart_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Bar_Chart"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/imagebutton_text_size"
+            android:drawableStart="@drawable/bar_chart"
+            android:drawablePadding="@dimen/right_margin_text_after_pic" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/iner_kit_menu_padding"
+        android:paddingTop="@dimen/iner_kit_menu_padding">
+
+        <TextView
+            android:id="@+id/line_chart_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Line_Chart"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/imagebutton_text_size"
+            android:drawableStart="@drawable/arrow_chart"
+            android:drawablePadding="@dimen/right_margin_text_after_pic" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

@@ -20,10 +20,15 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/graphs_bundle" />
 
+
     </android.support.design.widget.AppBarLayout>
 
-
-    <include layout="@layout/content_grp" />
+    <FrameLayout
+        android:id="@+id/chart_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible" />
 
 
 </android.support.design.widget.CoordinatorLayout>
