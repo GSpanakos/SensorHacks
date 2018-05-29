@@ -32,7 +32,6 @@ public class GraphsFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().addToBackStack(TAGB).replace(R.id.chart_container, new BarChartFragment(), TAGB).commit();
-                Log.d(null, "onClick: gamw to spiti sou");
             }
         });
 

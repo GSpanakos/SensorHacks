@@ -25,6 +25,7 @@ public class Graphs extends AppCompatActivity {
         setContentView(R.layout.activity_grp);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
 
         if (savedInstanceState == null) {
             GraphsFrag fragment = new GraphsFrag();

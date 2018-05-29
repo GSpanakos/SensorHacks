@@ -18,11 +18,14 @@ import com.example.vanir.sensorhacks.databinding.LinechartFragmentBinding;
 public class LineChartFragment extends Fragment {
 
     public LinechartFragmentBinding mBinding;
+    //public View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        //view = inflater.inflate(R.layout.linechart_fragment, container, false);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.linechart_fragment, container, false);
+
 
         return mBinding.getRoot();
     }
