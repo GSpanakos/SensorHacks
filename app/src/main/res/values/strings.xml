@@ -31,4 +31,7 @@
     <string name="Bar_Chart">Bar Chart</string>
     <string name="Line_Chart">Line Chart</string>
 
+    <string name="Refresh_Drawer">Refresh</string>
+    <string name="Stop_Drawer">Stop</string>
+
 </resources>

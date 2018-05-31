@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/start_nds"
+            android:title="@string/nodes_bundle"
+            android:icon="@drawable/nodes" />
+        <item
+            android:id="@+id/start_sns"
+            android:title="@string/sensors_bundle"
+            android:icon="@drawable/sensors" />
+        <item
+            android:id="@+id/start_act"
+            android:title="@string/actuators_bundle"
+            android:icon="@drawable/actuators" />
+        <item
+            android:id="@+id/start_grp"
+            android:title="@string/graphs_bundle"
+            android:icon="@drawable/graphs" />
+    </group>
+</menu>

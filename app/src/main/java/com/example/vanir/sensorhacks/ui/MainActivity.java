@@ -3,7 +3,11 @@ package com.example.vanir.sensorhacks.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,12 +19,14 @@ import com.example.vanir.sensorhacks.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    public DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        configureNavigationDrawer();
+        configureToolbar();
         Intent intent = getIntent();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -31,6 +37,44 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void configureToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setHomeAsUpIndicator(R.drawable.baseline2_menu_black_24dp);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void configureNavigationDrawer() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_drawer);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.start_nds) {
+                    startnds(findViewById(itemId));
+                    drawerLayout.closeDrawers();
+                    return true;
+                } else if (itemId == R.id.start_sns) {
+                    startsns(findViewById(itemId));
+                    drawerLayout.closeDrawers();
+                    return true;
+                } else if (itemId == R.id.start_act) {
+                    startact(findViewById(itemId));
+                    drawerLayout.closeDrawers();
+                    return true;
+                } else if (itemId == R.id.start_grp) {
+                    startgrp(findViewById(itemId));
+                    drawerLayout.closeDrawers();
+                    return true;
+                }
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -47,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_settings:
+                return true;
         }
+
+        //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
     }
