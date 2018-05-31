@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setHomeAsUpIndicator(R.drawable.baseline2_menu_black_24dp);
+        actionbar.setHomeAsUpIndicator(R.drawable.baseline2_menu_white_18dp);
         actionbar.setDisplayHomeAsUpEnabled(true);
     }
 
