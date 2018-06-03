@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.model.Sensor;
+import com.example.vanir.sensorhacks.ui.frags.AddSensorFragment;
+import com.example.vanir.sensorhacks.ui.frags.SensorFragment;
+import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
 
 /**
@@ -26,7 +28,6 @@ import com.example.vanir.sensorhacks.model.Sensor;
 public class Sensors extends AppCompatActivity {
 
     public DrawerLayout drawerLayout;
-
     public FloatingActionButton fab;
     private static final String TAG = "Sensors";
 

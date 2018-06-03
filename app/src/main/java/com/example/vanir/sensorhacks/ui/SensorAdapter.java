@@ -2,14 +2,9 @@ package com.example.vanir.sensorhacks.ui;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
-
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-
-import android.util.SparseBooleanArray;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;

@@ -17,37 +17,37 @@ import android.view.View;
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
-import com.example.vanir.sensorhacks.db.SensorEntity;
-import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
+import com.example.vanir.sensorhacks.db.ActuatorEntity;
+import com.example.vanir.sensorhacks.model.Actuator;
+import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
 
 import java.util.List;
 
 /**
- * Created by Γιώργος on 31/1/2018.
+ * Created by Γιώργος on 3/6/2018.
  */
 
-public class SensorListViewModel extends AndroidViewModel {
-
+public class ActuatorListViewModel extends AndroidViewModel {
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<List<SensorEntity>> mObservableSensors;
-    private static final String TAG = "add_sensor_to_db";
+    private final MediatorLiveData<List<ActuatorEntity>> mObservableActuators;
+    private static final String TAG = "add_actuator_to_db";
     private static int flag;
     private static DataRepository nRepository;
 
-    public SensorListViewModel(Application application, DataRepository repository) {
+    public ActuatorListViewModel(Application application, DataRepository repository) {
         super(application);
 
         nRepository = repository;
 
-        mObservableSensors = new MediatorLiveData<>();
+        mObservableActuators = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
-        mObservableSensors.setValue(null);
+        mObservableActuators.setValue(null);
 
-        LiveData<List<SensorEntity>> sensors = repository
-                .getSensors();
+        LiveData<List<ActuatorEntity>> actuators = repository
+                .getActuators();
 
-        // observe the changes of the sensors from the database and forward them
-        mObservableSensors.addSource(sensors, mObservableSensors::setValue);
+        // observe the changes of the actuators from the database and forward them
+        mObservableActuators.addSource(actuators, mObservableActuators::setValue);
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
@@ -63,27 +63,27 @@ public class SensorListViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new SensorListViewModel(mApplication, mRepository);
+            return (T) new ActuatorListViewModel(mApplication, mRepository);
         }
     }
 
     /**
-     * Expose the LiveData Sensors query so the UI can observe it.
+     * Expose the LiveData Actuators query so the UI can observe it.
      */
-    public LiveData<List<SensorEntity>> getSensors() {
-        return mObservableSensors;
+    public LiveData<List<ActuatorEntity>> getActuators() {
+        return mObservableActuators;
     }
 
-    public static void insertSensorTask(SensorEntity sensor, View view) {
-        InsertSensorTask task = new InsertSensorTask();
+    public static void insertActuatorTask(ActuatorEntity actuator, View view) {
+        ActuatorListViewModel.InsertActuatorTask task = new ActuatorListViewModel.InsertActuatorTask();
         flag = 0;
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                List<Integer> sensorIds = nRepository.loadSensorIds();
-                if (sensorIds.size() != 0) {
-                    for (int i = 0; i < sensorIds.size(); i++) {
-                        if (sensorIds.get(i) == sensor.getId()) {
+                List<Integer> actuatorIds = nRepository.loadActuatorIds();
+                if (actuatorIds.size() != 0) {
+                    for (int i = 0; i < actuatorIds.size(); i++) {
+                        if (actuatorIds.get(i) == actuator.getId()) {
                             Log.d(TAG, "run: Eisai mpoufos vale allo id");
                             flag = 1;
                             break;
@@ -91,11 +91,11 @@ public class SensorListViewModel extends AndroidViewModel {
                     }
                 }
                 if (flag == 0) {
-                    task.execute(sensor);
+                    task.execute(actuator);
                     startNewFrag(view);
                 } else {
                     Snackbar.make(view, "The id is used, try again", Snackbar.LENGTH_LONG).setAction("Id in use", null).show();
-                    Log.d(TAG, "run: no sensor added");
+                    Log.d(TAG, "run: no actuator added");
                 }
             }
         });
@@ -103,11 +103,11 @@ public class SensorListViewModel extends AndroidViewModel {
 
     }
 
-    private static class InsertSensorTask extends AsyncTask<SensorEntity, Void, Void> {
+    private static class InsertActuatorTask extends AsyncTask<ActuatorEntity, Void, Void> {
 
         @Override
-        protected Void doInBackground(SensorEntity... sensorEntities) {
-            nRepository.insert(sensorEntities[0]);
+        protected Void doInBackground(ActuatorEntity... actuatorEntities) {
+            nRepository.insert(actuatorEntities[0]);
             return null;
         }
 
@@ -118,8 +118,7 @@ public class SensorListViewModel extends AndroidViewModel {
         Context context = view.getContext();
         if (context instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) context;
-            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAG).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAG).replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
         }
     }
-
 }

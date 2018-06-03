@@ -8,6 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,9 @@ public interface SensorDAO {
 
     @Query("SELECT * FROM sensors")
     List<SensorEntity> loadAllSensorsSync();
+
+    @Query("SELECT id FROM sensors")
+    List<Integer> loadIds();
 
     @Query("SELECT * FROM sensors WHERE id = :sensorId")
     LiveData<SensorEntity> loadSensor(int sensorId);

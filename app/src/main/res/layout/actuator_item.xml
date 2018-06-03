@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="actuator"
+            type="com.example.vanir.sensorhacks.model.Actuator" />
+
+        <variable
+            name="callback"
+            type="com.example.vanir.sensorhacks.ui.ActuatorClickCallBack" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/actuator_item_min_height"
+        android:onClick="@{() ->  callback.onClick(actuator)}"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/iner_kit_menu_padding"
+            android:layout_marginEnd="@dimen/iner_kit_menu_padding">
+
+            <TextView
+                android:id="@+id/act_listview_name"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{actuator.name}"
+                android:textSize="@dimen/listview_name_textsize"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true" />
+
+            <TextView
+                android:id="@+id/act_listview_type"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{actuator.type}"
+                android:textColor="@color/colorBlack"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true" />
+
+            <TextView
+                android:id="@+id/act_listview_status"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(safeUnbox(actuator.status))}"
+                android:textColor="@color/colorBlack"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

@@ -1,4 +1,4 @@
-package com.example.vanir.sensorhacks.ui;
+package com.example.vanir.sensorhacks.ui.frags;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;

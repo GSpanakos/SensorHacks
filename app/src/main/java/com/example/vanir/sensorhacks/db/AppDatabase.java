@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.example.vanir.sensorhacks.AppExecutors;
+import com.example.vanir.sensorhacks.model.Actuator;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * Created by Γιώργος on 16/1/2018.
  */
 
-@Database(entities = {SensorEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {SensorEntity.class, ActuatorEntity.class}, version = 3, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -27,6 +29,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "basic-sample-db";
 
     public abstract SensorDAO sensorDAO();
+
+    public abstract ActuatorDAO actuatorDAO();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -59,14 +63,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     // Generate the data for pre-population
                     AppDatabase database = AppDatabase.getInstance(appContext, executors);
                     List<SensorEntity> sensors = DataGenerator.generateSensors();
-                    //List<CommentEntity> comments = DataGenerator.generateCommentsForProducts(products);
+                    List<ActuatorEntity> actuators = DataGenerator.generateActuators();
 
-                    insertData(database, sensors);
+                    insertData(database, sensors, actuators);
                     // notify that the database was created and it's ready to be used
                     database.setDatabaseCreated();
                 });
             }
-        }).build();
+        }).addMigrations(MIGRATION_2_3).build();
     }
 
     /**
@@ -82,9 +86,12 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<SensorEntity> sensors) {
+    private static void insertData(final AppDatabase database, final List<SensorEntity> sensors, final List<ActuatorEntity> actuators) {
         database.runInTransaction(() -> {
             database.sensorDAO().insertAll(sensors);
+        });
+        database.runInTransaction(() -> {
+            database.actuatorDAO().insertAll(actuators);
         });
     }
 
@@ -98,4 +105,11 @@ public abstract class AppDatabase extends RoomDatabase {
     public LiveData<Boolean> getDatabaseCreated() {
         return mIsDatabaseCreated;
     }
+
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE 'actuators' ('id' INTEGER NOT NULL, 'name' TEXT, 'type' TEXT, 'status' INTEGER, PRIMARY KEY('id'))");
+        }
+    };
 }

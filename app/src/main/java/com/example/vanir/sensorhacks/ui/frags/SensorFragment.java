@@ -1,4 +1,4 @@
-package com.example.vanir.sensorhacks.ui;
+package com.example.vanir.sensorhacks.ui.frags;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;

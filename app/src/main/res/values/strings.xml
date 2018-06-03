@@ -11,6 +11,9 @@
     <string name="nodes_bundle">Nodes</string>
     <string name="graphs_bundle">Graphs</string>
 
+    <string name="plusActBtnDescrptn">Add Actuator</string>
+    <string name="minusActBtnDescrptn">Delete Actuator</string>
+
     <string name="edit_text_location">Location</string>
     <string name="plusBtnDescrptn">Add Sensor</string>
     <string name="minusBtnDescrptn">Delete Sensor</string>
@@ -20,6 +23,17 @@
     <string name="Sensor_Status">Status</string>
     <string name="Sensor_Value">Value</string>
     <string name="Sensor_Id">Id</string>
+
+    <string name="Actuator_Name">Name</string>
+    <string name="Actuator_Type">Type</string>
+    <string name="Actuator_Status">Status</string>
+    <string name="Actuator_Id">Id</string>
+
+    <string name="Name_Act_Hint">Insert Actuator name</string>
+    <string name="Type_Act_Hint">Insert Actuator type</string>
+    <string name="Status_Act_On">Actuator Online</string>
+    <string name="Status_Act_Off">Actuator Offline</string>
+    <string name="Id_Act_Hint">Insert Actuator unique Id</string>
 
     <string name="Name_Hint">Insert Sensor name</string>
     <string name="Type_Hint">Insert Sensor type</string>

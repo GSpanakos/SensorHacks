@@ -1,11 +1,11 @@
 package com.example.vanir.sensorhacks.model;
 
-
 /**
- * Created by Γιώργος on 23/10/2017.
+ * Created by Γιώργος on 3/6/2018.
  */
 
-public interface Sensor {
+public interface Actuator {
+
     int getId();
 
     String getName();
@@ -13,6 +13,4 @@ public interface Sensor {
     String getType();
 
     Boolean getStatus();
-
-    double getValue();
 }

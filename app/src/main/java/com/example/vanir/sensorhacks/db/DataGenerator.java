@@ -34,4 +34,20 @@ public class DataGenerator {
         }
         return sensors;
     }
+
+    public static List<ActuatorEntity> generateActuators() {
+        List<ActuatorEntity> actuators = new ArrayList<>(FIRST.length * SECOND.length);
+        Random rnd = new Random();
+        for (int i = 0; i < FIRST.length; i++) {
+            for (int j = 0; j < SECOND.length; j++) {
+                ActuatorEntity actuator = new ActuatorEntity();
+                actuator.setName(FIRST[i] + SECOND[j]);
+                actuator.setType(TYPES[j]);
+                actuator.setStatus(Boolean.valueOf(STATUSS[j / 2]));
+                actuator.setId(FIRST.length * i + j + 1);
+                actuators.add(actuator);
+            }
+        }
+        return actuators;
+    }
 }

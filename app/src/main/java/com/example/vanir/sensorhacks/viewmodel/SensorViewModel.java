@@ -5,17 +5,14 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.content.Context;
 import android.databinding.ObservableField;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
-import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 
 import java.util.List;
@@ -88,11 +85,11 @@ public class SensorViewModel extends AndroidViewModel {
             @Override
             public void run() {
 
-                List<SensorEntity> allTheSensors = nRepository.loadAllSensorsSync();
-                if (allTheSensors.size() != 0) {
-                    for (int i = 0; i < allTheSensors.size(); i++) {
-                        if (allTheSensors.get(i).getId() == sensorId) {
-                            Log.d(TAG, "run: Eisai mpoufos o sensor me afto to id exei hdh diagrafei");
+                List<Integer> sensorIds = nRepository.loadSensorIds();
+                if (sensorIds.size() != 0) {
+                    for (int i = 0; i < sensorIds.size(); i++) {
+                        if (sensorIds.get(i) == sensorId) {
+                            Log.d(TAG, "run: diagrafh sensor me id: " + sensorIds.get(i));
                             flag = 1;
                             break;
                         }
@@ -102,7 +99,7 @@ public class SensorViewModel extends AndroidViewModel {
                     SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
                     task.execute(dsensor);
                 } else {
-                    Log.d(TAG, "run: sensor is deleted");
+                    Log.d(TAG, "run: sensor is already deleted");
                 }
 
             }

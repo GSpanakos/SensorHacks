@@ -12,16 +12,16 @@
             type="boolean" />
 
         <variable
-            name="sensorViewModel"
-            type="com.example.vanir.sensorhacks.viewmodel.SensorViewModel" />
+            name="actuatorViewModel"
+            type="com.example.vanir.sensorhacks.viewmodel.ActuatorViewModel" />
 
         <variable
-            name="sensor"
-            type="com.example.vanir.sensorhacks.model.Sensor" />
+            name="actuator"
+            type="com.example.vanir.sensorhacks.model.Actuator" />
 
         <variable
             name="callback"
-            type="com.example.vanir.sensorhacks.ui.frags.SensorFragment" />
+            type="com.example.vanir.sensorhacks.ui.frags.ActuatorFragment" />
 
     </data>
 
@@ -32,14 +32,14 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/sensor_item"
-            app:sensor="@{sensorViewModel.sensor}" />
+            layout="@layout/actuator_item"
+            app:actuator="@{actuatorViewModel.actuator}" />
 
         <Button
-            android:id="@+id/delete_sensor"
+            android:id="@+id/delete_actuator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/minusBtnDescrptn"
+            android:text="@string/minusActBtnDescrptn"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
