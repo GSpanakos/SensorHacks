@@ -9,6 +9,9 @@ import android.content.Context;
 import android.databinding.ObservableField;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.View;
 
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
@@ -28,6 +31,8 @@ public class SensorViewModel extends AndroidViewModel {
     public final int mSensorId;
     public static DataRepository nRepository;
     public static int nSensorId;
+    private static int flag;
+    private static final String TAG = "delete_error_from_db";
 
     public SensorViewModel(@NonNull Application application, DataRepository repository,
                            final int sensorId) {
@@ -76,13 +81,30 @@ public class SensorViewModel extends AndroidViewModel {
         }
     }
 
-    public static void deleteSensorTask(int sensorId) {
+    public static void deleteSensorTask(int sensorId, View view) {
         DeleteSensorTask task = new DeleteSensorTask();
+        flag = 0;
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
-                task.execute(dsensor);
+
+                List<SensorEntity> allTheSensors = nRepository.loadAllSensorsSync();
+                if (allTheSensors.size() != 0) {
+                    for (int i = 0; i < allTheSensors.size(); i++) {
+                        if (allTheSensors.get(i).getId() == sensorId) {
+                            Log.d(TAG, "run: Eisai mpoufos o sensor me afto to id exei hdh diagrafei");
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+                if (flag == 1) {
+                    SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
+                    task.execute(dsensor);
+                } else {
+                    Log.d(TAG, "run: sensor is deleted");
+                }
+
             }
         });
     }

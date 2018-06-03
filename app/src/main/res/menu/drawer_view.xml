@@ -2,20 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/home"
+            android:title="@string/Home"
+            android:icon="@drawable/round_home2_black_18dp" />
+        <item
             android:id="@+id/start_nds"
             android:title="@string/nodes_bundle"
-            android:icon="@drawable/nodes" />
+            android:icon="@drawable/round_device_hub_black_18dp" />
         <item
             android:id="@+id/start_sns"
             android:title="@string/sensors_bundle"
-            android:icon="@drawable/sensors" />
+            android:icon="@drawable/round_remove_red_eye_black_18dp" />
         <item
             android:id="@+id/start_act"
             android:title="@string/actuators_bundle"
-            android:icon="@drawable/actuators" />
+            android:icon="@drawable/round_router_black_18dp" />
         <item
             android:id="@+id/start_grp"
             android:title="@string/graphs_bundle"
-            android:icon="@drawable/graphs" />
+            android:icon="@drawable/round_equalizer_black_18dp" />
     </group>
 </menu>

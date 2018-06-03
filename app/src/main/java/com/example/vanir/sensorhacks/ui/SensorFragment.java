@@ -41,7 +41,7 @@ public class SensorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick :" + mSensorId);
-                SensorViewModel.deleteSensorTask(mSensorId);
+                SensorViewModel.deleteSensorTask(mSensorId, v);
                 getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
             }
         });

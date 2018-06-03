@@ -33,5 +33,6 @@
 
     <string name="Refresh_Drawer">Refresh</string>
     <string name="Stop_Drawer">Stop</string>
+    <string name="Home">Home</string>
 
 </resources>
