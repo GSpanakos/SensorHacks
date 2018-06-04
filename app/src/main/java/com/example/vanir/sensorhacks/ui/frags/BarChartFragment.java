@@ -44,12 +44,11 @@ public class BarChartFragment extends Fragment {
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        barEntries.add(new BarEntry(1f, 40f, "papakia1"));
-        barEntries.add(new BarEntry(2f, 44f, "papakia2"));
-        barEntries.add(new BarEntry(3f, 34f, "papakia3"));
-        barEntries.add(new BarEntry(4f, 52f, "papakia4"));
-        barEntries.add(new BarEntry(5f, 39f, "papakia5"));
-        barEntries.add(new BarEntry(6f, 22f, "papakia6"));
+        for (int j = 0; j < 25; j++) {
+            for (int i = 0; i < 50; i++) {
+                barEntries.add(new BarEntry(i * j, 2 * i, "papakia"));
+            }
+        }
 
         BarDataSet bardataSet = new BarDataSet(barEntries, "PAPAKIA");
         bardataSet.setColors(ColorTemplate.COLORFUL_COLORS);

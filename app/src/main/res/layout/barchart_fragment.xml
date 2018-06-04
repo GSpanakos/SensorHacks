@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:visibility="visible"
+        android:paddingTop="@dimen/margin_top_from_bar">
+
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barchart_example"
@@ -10,6 +17,8 @@
             android:layout_height="match_parent">
 
         </com.github.mikephil.charting.charts.BarChart>
+
+    </LinearLayout>
 
 
 </layout>
