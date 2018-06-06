@@ -53,15 +53,16 @@ public class SensorListViewModel extends AndroidViewModel {
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         @NonNull
         private final Application mApplication;
-        public final DataRepository mRepository;
+        private final DataRepository mRepository;
 
         public Factory(@NonNull Application application) {
             mApplication = application;
             mRepository = ((BasicApp) application).getRepository();
         }
 
+        @NonNull
         @Override
-        public <T extends ViewModel> T create(Class<T> modelClass) {
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
             return (T) new SensorListViewModel(mApplication, mRepository);
         }

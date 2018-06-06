@@ -85,24 +85,8 @@ public class ActuatorViewModel extends AndroidViewModel {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
-                List<Integer> actuatorIds = nRepository.loadActuatorIds();
-                if (actuatorIds.size() != 0) {
-                    for (int i = 0; i < actuatorIds.size(); i++) {
-                        if (actuatorIds.get(i) == actuatorId) {
-                            Log.d(TAG, "run: diagrafh actuator me id: " + actuatorIds.get(i));
-                            flag = 1;
-                            break;
-                        }
-                    }
-                }
-                if (flag == 1) {
-                    ActuatorEntity dactuator = nRepository.loadActuatorSync(nActuatorId);
-                    task.execute(dactuator);
-                } else {
-                    Log.d(TAG, "run: actuator is already deleted");
-                }
-
+                ActuatorEntity dactuator = nRepository.loadActuatorSync(nActuatorId);
+                task.execute(dactuator);
             }
         });
     }

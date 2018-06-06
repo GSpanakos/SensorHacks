@@ -26,8 +26,9 @@ public class SensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     private SensorFragmentBinding mBinding;
-    private static final String TAG = "Delete_Sensor", TAG2 = "After_Delete_Frag";
+    private static final String TAG = "Delete_Sensor", TAG2 = "After_Delete_Frag", TAG3 = "Edit_Sensor";
     public static int mSensorId;
+    public static SensorEntity sensorForLayout;
 
 
 
@@ -37,12 +38,24 @@ public class SensorFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         // Inflate this data binding layout
         mBinding = DataBindingUtil.inflate(inflater, R.layout.sensor_fragment, container, false);
+        //needed for textview horizontal scrolling/marqueeing
+        mBinding.sensorFragForMarqueeId.setSelected(true);
+
         mBinding.deleteSensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick :" + mSensorId);
+                Log.d(TAG, "onClick delete: " + mSensorId);
                 SensorViewModel.deleteSensorTask(mSensorId, v);
-                getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+            }
+        });
+
+        mBinding.editSensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG3, "onClick: " + mSensorId);
+                EditSensorFragment editSensorFragment = EditSensorFragment.forEditSensor(sensorForLayout);
+                getFragmentManager().beginTransaction().addToBackStack(TAG3).replace(R.id.fragment_container, new EditSensorFragment(), null).commit();
             }
         });
 
@@ -53,8 +66,7 @@ public class SensorFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        SensorViewModel.Factory factory = new SensorViewModel.Factory(
-                getActivity().getApplication(), getArguments().getInt(KEY_SENSOR_ID));
+        SensorViewModel.Factory factory = new SensorViewModel.Factory(getActivity().getApplication(), getArguments().getInt(KEY_SENSOR_ID));
 
         final SensorViewModel model = ViewModelProviders.of(this, factory)
                 .get(SensorViewModel.class);
@@ -78,11 +90,12 @@ public class SensorFragment extends Fragment {
     /**
      * Creates sensor fragment for specific sensor ID
      */
-    public static SensorFragment forSensor(int sensorId) {
-        mSensorId = sensorId;
+    public static SensorFragment forSensor(SensorEntity sensor) {
+        mSensorId = sensor.getId();
+        sensorForLayout = sensor;
         SensorFragment fragment = new SensorFragment();
         Bundle args = new Bundle();
-        args.putInt(KEY_SENSOR_ID, sensorId);
+        args.putInt(KEY_SENSOR_ID, sensor.getId());
         fragment.setArguments(args);
         return fragment;
     }

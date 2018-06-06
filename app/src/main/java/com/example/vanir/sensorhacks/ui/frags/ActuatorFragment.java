@@ -39,7 +39,7 @@ public class ActuatorFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick :" + mActuatorId);
                 ActuatorViewModel.deleteActuatorTask(mActuatorId, v);
-                getFragmentManager().beginTransaction().addToBackStack(TAG2).replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
             }
         });
 

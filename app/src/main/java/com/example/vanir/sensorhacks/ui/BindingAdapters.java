@@ -12,4 +12,5 @@ public class BindingAdapters {
     public static void showHide(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);
     }
+
 }

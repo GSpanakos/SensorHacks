@@ -10,9 +10,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
-import com.example.vanir.sensorhacks.model.Actuator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +28,7 @@ public class DataRepository {
         mDatabase = database;
         mObservableSensors = new MediatorLiveData<>();
         mObservableActuators = new MediatorLiveData<>();
+
 
         mObservableSensors.addSource(mDatabase.sensorDAO().loadAllSensors(),
                 sensorEntities -> {
@@ -86,6 +85,10 @@ public class DataRepository {
 
     public void delete(SensorEntity sensorEntity) {
         mDatabase.sensorDAO().deleteSensor(sensorEntity);
+    }
+
+    public void updateSensor(SensorEntity sensor) {
+        mDatabase.sensorDAO().updateSensor(sensor);
     }
 
     /**

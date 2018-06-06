@@ -24,7 +24,7 @@ public class AddSensorFragment extends Fragment {
     private static final String KEY_SENSOR_ID = "sensor_id";
     public AddSensorFragmentBinding mBinding;
     public static final String TAG = "add_sensor_to_db";
-    public SensorEntity mSensor, sensor;
+    public SensorEntity mSensor;
     public Boolean toggleButton = false;
 
     @Override
@@ -66,6 +66,7 @@ public class AddSensorFragment extends Fragment {
                 }
             }
         });
+
 
         return mBinding.getRoot();
     }

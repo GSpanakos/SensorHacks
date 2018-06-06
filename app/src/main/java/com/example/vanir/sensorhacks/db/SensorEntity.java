@@ -3,6 +3,8 @@ package com.example.vanir.sensorhacks.db;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
 import com.example.vanir.sensorhacks.model.Sensor;
 

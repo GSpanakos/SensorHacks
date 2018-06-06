@@ -77,6 +77,9 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
     @Override
     public void onBindViewHolder(SensorViewHolder holder, int position) {
         holder.binding.setSensor(mSensorList.get(position));
+        holder.binding.snsListviewName.setSelected(true);
+        holder.binding.snsListviewType.setSelected(true);
+        holder.binding.snsListviewValue.setSelected(true);
         holder.binding.executePendingBindings();
     }
 

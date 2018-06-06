@@ -17,6 +17,7 @@
     <string name="edit_text_location">Location</string>
     <string name="plusBtnDescrptn">Add Sensor</string>
     <string name="minusBtnDescrptn">Delete Sensor</string>
+    <string name="editBtnDescrptn">Edit Sensor</string>
 
     <string name="Sensor_Name">Name</string>
     <string name="Sensor_Type">Type</string>

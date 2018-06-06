@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.LinechartFragmentBinding;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -36,7 +35,7 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
 
     private static final String TAG = "LineChartFragment";
     public LinechartFragmentBinding mBinding;
-    private boolean plotData;
+    private boolean plotData = true;
     private Thread thread;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -67,38 +66,41 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
         mBinding.linechartExample.setTouchEnabled(true);
         mBinding.linechartExample.setDragEnabled(true);
         mBinding.linechartExample.setScaleEnabled(true);
-        mBinding.linechartExample.setDrawGridBackground(false);
+        mBinding.linechartExample.setDrawGridBackground(true);
         mBinding.linechartExample.setPinchZoom(true);
         mBinding.linechartExample.setBackgroundColor(Color.WHITE);
 
         LineData data = new LineData();
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
 
         mBinding.linechartExample.setData(data);
 
         Legend legend = mBinding.linechartExample.getLegend();
         legend.setForm(Legend.LegendForm.LINE);
-        legend.setTextColor(Color.WHITE);
+        legend.setTextColor(Color.BLACK);
 
         XAxis xl = mBinding.linechartExample.getXAxis();
-        xl.setTextColor(Color.WHITE);
+        xl.setTextColor(Color.BLACK);
         xl.setDrawGridLines(true);
         xl.setAvoidFirstLastClipping(true);
         xl.setEnabled(true);
 
         YAxis leftAxis = mBinding.linechartExample.getAxisLeft();
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setDrawGridLines(false);
-        leftAxis.setAxisMaximum(10f);
+        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setAxisMaximum(12f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = mBinding.linechartExample.getAxisRight();
-        rightAxis.setEnabled(false);
+        rightAxis.setEnabled(true);
+        rightAxis.setTextColor(Color.BLACK);
+        rightAxis.setAxisMaximum(12f);
+        rightAxis.setAxisMinimum(0f);
+        rightAxis.setDrawGridLines(true);
 
-        mBinding.linechartExample.getAxisLeft().setDrawGridLines(false);
-        mBinding.linechartExample.getXAxis().setDrawGridLines(false);
-        mBinding.linechartExample.setDrawBorders(false);
+        mBinding.linechartExample.getAxisLeft().setDrawGridLines(true);
+        mBinding.linechartExample.getXAxis().setDrawGridLines(true);
+        mBinding.linechartExample.setDrawBorders(true);
 
         feedMultiple();
 
@@ -141,14 +143,14 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
                 lineData.addDataSet(set);
             }
 
-            //lineData.addEntry(new Entry(set.getEntryCount(), (float) (Math.random() * 80) + 10f), 0);
-            lineData.addEntry(new Entry(set.getEntryCount(), event.values[0] + 5f), 0);
+            //lineData.addEntry(new Entry(set.getEntryCount(), (float) (Math.random() * 2) + 5f), 0);
+            lineData.addEntry(new Entry(set.getEntryCount(), event.values[0] + 6f), 0);
             //notify data and chart that the data has been changed
             lineData.notifyDataChanged();
             mBinding.linechartExample.notifyDataSetChanged();
             //max number of entries shown on each axis
-            mBinding.linechartExample.setVisibleXRangeMaximum(150);
-            //mChart.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
+            mBinding.linechartExample.setVisibleXRangeMaximum(100);
+            //mBinding.linechartExample.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 
             //move to the latest entry
 
@@ -160,9 +162,9 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
     private LineDataSet createSet() {
         LineDataSet set = new LineDataSet(null, "Dynamic Data");
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setLineWidth(3f);
-        set.setColor(Color.MAGENTA);
-        set.setHighlightEnabled(false);
+        set.setLineWidth(4f);
+        set.setColor(Color.BLUE);
+        set.setHighlightEnabled(true);
         set.setDrawValues(false);
         set.setDrawCircles(false);
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);

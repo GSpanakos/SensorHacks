@@ -3,6 +3,7 @@ package com.example.vanir.sensorhacks.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
@@ -19,24 +20,23 @@ import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
-import java.util.List;
 
 /**
- * Created by Γιώργος on 31/1/2018.
+ * Created by Γιώργος on 6/6/2018.
  */
 
-public class SensorViewModel extends AndroidViewModel {
+public class EditSensorViewModel extends AndroidViewModel {
 
     private final LiveData<SensorEntity> mObservableSensor;
-    public ObservableField<SensorEntity> sensor = new ObservableField<>();
-    private static DataRepository nRepository;
-    private static int nSensorId;
-    private static int flagD;
-    private static final String TAGD = "delete_error_from_db";
+    private ObservableField<SensorEntity> sensor = new ObservableField<>();
+    public static DataRepository nRepository;
+    public static int nSensorId;
+    public static final String TAGE = "update_sensor_on_db";
 
-    private SensorViewModel(@NonNull Application application, DataRepository repository,
-                            final int sensorId) {
+    public EditSensorViewModel(@NonNull Application application, DataRepository repository,
+                               final int sensorId) {
         super(application);
+
         mObservableSensor = repository.loadSensor(sensorId);
 
         nRepository = repository;
@@ -61,12 +61,14 @@ public class SensorViewModel extends AndroidViewModel {
      * This creator is to showcase how to inject dependencies into ViewModels. It's not
      * actually necessary in this case, as the sensor ID can be passed in a public method.
      */
+
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final Application mApplication;
-        private int mSensorId;
-        private final DataRepository mRepository;
+        public final int mSensorId;
+        public final DataRepository mRepository;
+
 
         public Factory(@NonNull Application application, int sensorId) {
             mApplication = application;
@@ -78,34 +80,35 @@ public class SensorViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new SensorViewModel(mApplication, mRepository, mSensorId);
+            return (T) new EditSensorViewModel(mApplication, mRepository, mSensorId);
         }
     }
 
-
-    public static void deleteSensorTask(int sensorId, View view) {
-        DeleteSensorTask task = new DeleteSensorTask();
-        flagD = 0;
+    public static void editSensorTask(SensorEntity sensor, View v) {
+        EditSensorTask task = new EditSensorTask();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
-                task.execute(dsensor);
+                task.execute(sensor);
+                startNewFrag(v);
             }
         });
     }
 
-
-    private static class DeleteSensorTask extends AsyncTask<SensorEntity, Void, Void> {
+    private static class EditSensorTask extends AsyncTask<SensorEntity, Void, Void> {
 
         @Override
         protected Void doInBackground(SensorEntity... sensorEntities) {
-            nRepository.delete(sensorEntities[0]);
+            nRepository.updateSensor(sensorEntities[0]);
             return null;
         }
     }
 
-
+    private static void startNewFrag(View v) {
+        Context context = v.getContext();
+        if (context instanceof FragmentActivity) {
+            FragmentActivity fragmentActivity = (FragmentActivity) context;
+            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAGE).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+        }
+    }
 }
-
-

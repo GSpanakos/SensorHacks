@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="isLoading"
             type="boolean" />
@@ -26,6 +24,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/sensor_frag_for_marquee_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
@@ -35,13 +34,28 @@
             layout="@layout/sensor_item"
             app:sensor="@{sensorViewModel.sensor}" />
 
-        <Button
-            android:id="@+id/delete_sensor"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/minusBtnDescrptn"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
+
+
+            <Button
+                android:id="@+id/edit_sensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@string/editBtnDescrptn" />
+
+            <Button
+                android:id="@+id/delete_sensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/minusBtnDescrptn" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 </layout>

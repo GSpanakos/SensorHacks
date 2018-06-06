@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.ui.frags.AddSensorFragment;
+import com.example.vanir.sensorhacks.ui.frags.EditSensorFragment;
 import com.example.vanir.sensorhacks.ui.frags.SensorFragment;
 import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
@@ -124,7 +126,7 @@ public class Sensors extends AppCompatActivity {
      * Shows the sensor detail fragment
      */
     public void show(Sensor sensor) {
-        SensorFragment sensorFragment = SensorFragment.forSensor(sensor.getId());
+        SensorFragment sensorFragment = SensorFragment.forSensor((SensorEntity) sensor);
         getSupportFragmentManager().beginTransaction().addToBackStack("sensor").replace(R.id.fragment_container, sensorFragment, null).commit();
     }
 

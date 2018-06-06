@@ -27,12 +27,7 @@ public class GraphsFrag extends Fragment {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.content_grp_fragment, container, false);
 
-        mBinding.barChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().addToBackStack(TAGB).replace(R.id.chart_container, new BarChartFragment(), TAGB).commit();
-            }
-        });
+        mBinding.barChart.setOnClickListener(v -> getFragmentManager().beginTransaction().addToBackStack(TAGB).replace(R.id.chart_container, new BarChartFragment(), TAGB).commit());
 
         mBinding.lineChart.setOnClickListener(new View.OnClickListener() {
             @Override
