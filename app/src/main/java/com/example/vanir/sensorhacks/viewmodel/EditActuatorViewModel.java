@@ -15,46 +15,46 @@ import android.view.View;
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.db.SensorEntity;
-import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
-
+import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
 
 /**
- * Created by Γιώργος on 6/6/2018.
+ * Created by Γιώργος on 7/6/2018.
  */
 
-public class EditSensorViewModel extends AndroidViewModel {
+public class EditActuatorViewModel extends AndroidViewModel {
 
-    private final LiveData<SensorEntity> mObservableSensor;
-    private ObservableField<SensorEntity> sensor = new ObservableField<>();
-    public static DataRepository nRepository;
-    public static int nSensorId;
-    public static final String TAGE = "update_sensor_on_db";
+    private static DataRepository nRepository;
+    private static int nActuatorId;
+    private LiveData<ActuatorEntity> mObservableActuator;
+    private ObservableField<ActuatorEntity> actuator = new ObservableField<>();
+    public static final String TAGE = "update_actuator_on_db";
 
-    public EditSensorViewModel(@NonNull Application application, DataRepository repository,
-                               final int sensorId) {
+    public EditActuatorViewModel(@NonNull Application application, DataRepository repository,
+                                 final int actuatorId) {
         super(application);
 
-        mObservableSensor = repository.loadSensor(sensorId);
+        mObservableActuator = repository.loadActuator(actuatorId);
 
         nRepository = repository;
-        nSensorId = sensorId;
+        nActuatorId = actuatorId;
     }
 
     /**
-     * Expose the LiveData Sensor query so the UI can observe it.
+     * Expose the LiveData Actuator query so the UI can observe it.
      */
-    public LiveData<SensorEntity> getObservableSensor() {
-        return mObservableSensor;
+
+    public LiveData<ActuatorEntity> getObservableActuator() {
+        return mObservableActuator;
     }
 
-    public void setSensor(SensorEntity sensor) {
-        this.sensor.set(sensor);
+    public void setActuator(ActuatorEntity actuator) {
+        this.actuator.set(actuator);
     }
-
 
     /**
-     * A creator is used to inject the sensor ID into the ViewModel
+     * A creator is used to inject the actuator ID into the ViewModel
      * <p>
      * This creator is to showcase how to inject dependencies into ViewModels. It's not
      * actually necessary in this case, as the sensor ID can be passed in a public method.
@@ -62,42 +62,43 @@ public class EditSensorViewModel extends AndroidViewModel {
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
-        @NonNull
+
         private final Application mApplication;
-        private final int mSensorId;
+        private final int mActuatorId;
         private final DataRepository mRepository;
 
-
-        public Factory(@NonNull Application application, int sensorId) {
+        public Factory(Application application, int actuatorId) {
             mApplication = application;
-            mSensorId = sensorId;
+            mActuatorId = actuatorId;
             mRepository = ((BasicApp) application).getRepository();
+
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new EditSensorViewModel(mApplication, mRepository, mSensorId);
+            return (T) new EditActuatorViewModel(mApplication, mRepository, mActuatorId);
         }
     }
 
-    public static void editSensorTask(SensorEntity sensor, View v) {
-        EditSensorTask task = new EditSensorTask();
+    public static void editActuatorTask(ActuatorEntity actuator, View v) {
+        EditActuatorTask task = new EditActuatorTask();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                task.execute(sensor);
+                task.execute(actuator);
                 startNewFrag(v);
             }
         });
     }
 
-    private static class EditSensorTask extends AsyncTask<SensorEntity, Void, Void> {
+
+    private static class EditActuatorTask extends AsyncTask<ActuatorEntity, Void, Void> {
 
         @Override
-        protected Void doInBackground(SensorEntity... sensorEntities) {
-            nRepository.updateSensor(sensorEntities[0]);
+        protected Void doInBackground(ActuatorEntity... actuatorEntities) {
+            nRepository.updateActuator(actuatorEntities[0]);
             return null;
         }
     }
@@ -106,7 +107,7 @@ public class EditSensorViewModel extends AndroidViewModel {
         Context context = v.getContext();
         if (context instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) context;
-            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAGE).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAGE).replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
         }
     }
 }

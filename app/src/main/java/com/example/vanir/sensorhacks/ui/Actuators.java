@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.model.Actuator;
 import com.example.vanir.sensorhacks.ui.frags.ActuatorFragment;
 import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
@@ -126,7 +127,7 @@ public class Actuators extends AppCompatActivity {
      * Shows the actuator detail fragment
      */
     public void show(Actuator actuator) {
-        ActuatorFragment actuatorFragment = ActuatorFragment.forActuator(actuator.getId());
+        ActuatorFragment actuatorFragment = ActuatorFragment.forActuator((ActuatorEntity) actuator);
         getSupportFragmentManager().beginTransaction().addToBackStack("actuator").replace(R.id.fragment_actuator_container, actuatorFragment, null).commit();
     }
 

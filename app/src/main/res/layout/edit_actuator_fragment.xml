@@ -5,12 +5,12 @@
     <data>
 
         <variable
-            name="editSensorFragment"
-            type="com.example.vanir.sensorhacks.ui.frags.EditSensorFragment" />
+            name="editActuatorFragment"
+            type="com.example.vanir.sensorhacks.ui.frags.EditActuatorFragment" />
 
         <variable
-            name="editSensorViewModel"
-            type="com.example.vanir.sensorhacks.viewmodel.EditSensorViewModel" />
+            name="editActuatorViewModel"
+            type="com.example.vanir.sensorhacks.viewmodel.EditActuatorViewModel" />
     </data>
 
 
@@ -19,7 +19,7 @@
         android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/edit_sensor_fragment"
+        android:id="@+id/edit_actuator_fragment"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -32,14 +32,14 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/editSensorTextname"
+                android:id="@+id/editActuatorTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/Name_Hint"
                 android:inputType="text"
                 android:singleLine="true"
-                android:text="@{editSensorFragment.sensorForLayout.name}"
+                android:text="@{editActuatorFragment.actuatorForLayout.name}"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
@@ -50,47 +50,31 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/editSensorTexttype"
+                android:id="@+id/editActuatorTextType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/Type_Hint"
                 android:inputType="text"
-                android:text="@{editSensorFragment.sensorForLayout.type}" />
+                android:text="@{editActuatorFragment.actuatorForLayout.type}" />
 
         </android.support.design.widget.TextInputLayout>
 
         <ToggleButton
-            android:id="@+id/editToggleSensorButtonStatus"
+            android:id="@+id/editToggleActuatorButtonStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(editSensorFragment.sensorForLayout.status)}"
-            android:textOff="@string/Status_Off"
-            android:textOn="@string/Status_On"
+            android:text="@{String.valueOf(editActuatorFragment.actuatorForLayout.status)}"
+            android:textOff="@string/Status_Act_Off"
+            android:textOn="@string/Status_Act_On"
             android:visibility="visible" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/editSensorTextValue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/Value_Hint"
-                android:inputType="numberDecimal"
-                android:text="@{String.valueOf(editSensorFragment.sensorForLayout.value)}"
-                android:visibility="visible" />
-
-
-        </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/editButton"
+            android:id="@+id/editActButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/editBtnDescrptn"
+            android:text="@string/editActBtnDescrptn"
             android:visibility="visible"
             android:layout_gravity="end" />
 

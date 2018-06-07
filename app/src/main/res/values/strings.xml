@@ -13,6 +13,7 @@
 
     <string name="plusActBtnDescrptn">Add Actuator</string>
     <string name="minusActBtnDescrptn">Delete Actuator</string>
+    <string name="editActBtnDescrptn">Edit Actuator</string>
 
     <string name="edit_text_location">Location</string>
     <string name="plusBtnDescrptn">Add Sensor</string>

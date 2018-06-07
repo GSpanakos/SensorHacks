@@ -23,8 +23,9 @@ import com.example.vanir.sensorhacks.viewmodel.ActuatorViewModel;
 public class ActuatorFragment extends Fragment {
 
     private static final String KEY_ACTUATOR_ID = "actuator_id";
+    public static ActuatorEntity actuatorForLayout;
     private ActuatorFragmentBinding mBinding;
-    private static final String TAG = "Delete_Actuator", TAG2 = "After_Delete_Frag";
+    private static final String TAG = "Delete_Actuator", TAG2 = "After_Delete_Frag", TAG3 = "Edit_Actuator";
     public static int mActuatorId;
 
 
@@ -40,6 +41,15 @@ public class ActuatorFragment extends Fragment {
                 Log.d(TAG, "onClick :" + mActuatorId);
                 ActuatorViewModel.deleteActuatorTask(mActuatorId, v);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
+            }
+        });
+
+        mBinding.editActuator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: " + mActuatorId);
+                EditActuatorFragment editActuatorFragment = EditActuatorFragment.forEditActuator(actuatorForLayout);
+                getFragmentManager().beginTransaction().addToBackStack(TAG3).replace(R.id.fragment_actuator_container, new EditActuatorFragment(), null).commit();
             }
         });
 
@@ -75,11 +85,12 @@ public class ActuatorFragment extends Fragment {
     /**
      * Creates actuator fragment for specific actuator ID
      */
-    public static ActuatorFragment forActuator(int actuatorId) {
-        mActuatorId = actuatorId;
+    public static ActuatorFragment forActuator(ActuatorEntity actuator) {
+        mActuatorId = actuator.getId();
+        actuatorForLayout = actuator;
         ActuatorFragment fragment = new ActuatorFragment();
         Bundle args = new Bundle();
-        args.putInt(KEY_ACTUATOR_ID, actuatorId);
+        args.putInt(KEY_ACTUATOR_ID, actuator.getId());
         fragment.setArguments(args);
         return fragment;
     }

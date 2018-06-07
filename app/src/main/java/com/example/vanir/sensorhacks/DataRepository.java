@@ -123,4 +123,7 @@ public class DataRepository {
         mDatabase.actuatorDAO().deleteActuator(actuatorEntity);
     }
 
+    public void updateActuator(ActuatorEntity actuator) {
+        mDatabase.actuatorDAO().updateActuator(actuator);
+    }
 }
