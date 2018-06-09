@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="isLoading"
             type="boolean" />
@@ -19,13 +17,10 @@
             name="actuator"
             type="com.example.vanir.sensorhacks.model.Actuator" />
 
-        <variable
-            name="callback"
-            type="com.example.vanir.sensorhacks.ui.frags.ActuatorFragment" />
-
     </data>
 
     <LinearLayout
+        android:id="@+id/actuator_frag_for_marquee_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"

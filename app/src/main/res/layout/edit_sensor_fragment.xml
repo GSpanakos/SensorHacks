@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="editSensorFragment"
-            type="com.example.vanir.sensorhacks.ui.frags.EditSensorFragment" />
+            name="sensor"
+            type="com.example.vanir.sensorhacks.db.SensorEntity" />
 
         <variable
             name="editSensorViewModel"
@@ -39,7 +39,7 @@
                 android:hint="@string/Name_Hint"
                 android:inputType="text"
                 android:singleLine="true"
-                android:text="@{editSensorFragment.sensorForLayout.name}"
+                android:text="@{sensor.name}"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
@@ -56,7 +56,7 @@
                 android:ems="10"
                 android:hint="@string/Type_Hint"
                 android:inputType="text"
-                android:text="@{editSensorFragment.sensorForLayout.type}" />
+                android:text="@{sensor.type}" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -64,7 +64,7 @@
             android:id="@+id/editToggleSensorButtonStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(editSensorFragment.sensorForLayout.status)}"
+            android:text="@{String.valueOf(safeUnbox(sensor.status))}"
             android:textOff="@string/Status_Off"
             android:textOn="@string/Status_On"
             android:visibility="visible" />
@@ -80,7 +80,7 @@
                 android:ems="10"
                 android:hint="@string/Value_Hint"
                 android:inputType="numberDecimal"
-                android:text="@{String.valueOf(editSensorFragment.sensorForLayout.value)}"
+                android:text="@{String.valueOf(safeUnbox(sensor.value))}"
                 android:visibility="visible" />
 
 

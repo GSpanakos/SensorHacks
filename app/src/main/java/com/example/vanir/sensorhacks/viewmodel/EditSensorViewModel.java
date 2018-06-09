@@ -26,9 +26,8 @@ import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 public class EditSensorViewModel extends AndroidViewModel {
 
     private final LiveData<SensorEntity> mObservableSensor;
-    private ObservableField<SensorEntity> sensor = new ObservableField<>();
-    public static DataRepository nRepository;
-    public static int nSensorId;
+    public ObservableField<SensorEntity> sensor = new ObservableField<>();
+    private static DataRepository nRepository;
     public static final String TAGE = "update_sensor_on_db";
 
     public EditSensorViewModel(@NonNull Application application, DataRepository repository,
@@ -38,7 +37,6 @@ public class EditSensorViewModel extends AndroidViewModel {
         mObservableSensor = repository.loadSensor(sensorId);
 
         nRepository = repository;
-        nSensorId = sensorId;
     }
 
     /**
@@ -106,7 +104,7 @@ public class EditSensorViewModel extends AndroidViewModel {
         Context context = v.getContext();
         if (context instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) context;
-            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAGE).replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorListFragment(), null).commit();
         }
     }
 }

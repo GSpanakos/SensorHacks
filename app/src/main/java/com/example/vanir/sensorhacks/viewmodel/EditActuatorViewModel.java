@@ -25,10 +25,9 @@ import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
 
 public class EditActuatorViewModel extends AndroidViewModel {
 
-    private static DataRepository nRepository;
-    private static int nActuatorId;
     private LiveData<ActuatorEntity> mObservableActuator;
     private ObservableField<ActuatorEntity> actuator = new ObservableField<>();
+    private static DataRepository nRepository;
     public static final String TAGE = "update_actuator_on_db";
 
     public EditActuatorViewModel(@NonNull Application application, DataRepository repository,
@@ -38,7 +37,6 @@ public class EditActuatorViewModel extends AndroidViewModel {
         mObservableActuator = repository.loadActuator(actuatorId);
 
         nRepository = repository;
-        nActuatorId = actuatorId;
     }
 
     /**
@@ -93,7 +91,6 @@ public class EditActuatorViewModel extends AndroidViewModel {
         });
     }
 
-
     private static class EditActuatorTask extends AsyncTask<ActuatorEntity, Void, Void> {
 
         @Override
@@ -107,7 +104,7 @@ public class EditActuatorViewModel extends AndroidViewModel {
         Context context = v.getContext();
         if (context instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) context;
-            fragmentActivity.getSupportFragmentManager().beginTransaction().addToBackStack(TAGE).replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
+            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
         }
     }
 }

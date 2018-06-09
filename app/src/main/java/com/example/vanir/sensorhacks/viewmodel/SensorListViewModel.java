@@ -115,7 +115,7 @@ public class SensorListViewModel extends AndroidViewModel {
 
     }
 
-    public static void startNewFrag(View view) {
+    private static void startNewFrag(View view) {
         Context context = view.getContext();
         if (context instanceof FragmentActivity) {
             FragmentActivity fragmentActivity = (FragmentActivity) context;

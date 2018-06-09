@@ -28,8 +28,7 @@ public class EditSensorFragment extends Fragment {
     private static int mSensorId;
     public EditSensorFragmentBinding mBinding;
     public static final String TAG = "update_sensor_to_db";
-    public SensorEntity mSensor;
-    public static SensorEntity sensorForLayout;
+    public static SensorEntity mSensor;
     public Boolean toggleButton = false;
 
 
@@ -90,7 +89,18 @@ public class EditSensorFragment extends Fragment {
         model.getObservableSensor().observe(this, new Observer<SensorEntity>() {
             @Override
             public void onChanged(@Nullable SensorEntity sensorEntity) {
-                model.setSensor(sensorEntity);
+                if ((sensorEntity != null) && (mSensor == null)) {
+
+                    mSensor = sensorEntity;
+                    mBinding.setSensor(mSensor);
+                    model.setSensor(mSensor);
+
+                } else {
+                    mBinding.setSensor(sensorEntity);
+                    model.setSensor(sensorEntity);
+                }
+
+
             }
         });
     }
@@ -102,11 +112,7 @@ public class EditSensorFragment extends Fragment {
 
     public static EditSensorFragment forEditSensor(SensorEntity sensor) {
         mSensorId = sensor.getId();
-        sensorForLayout = sensor;
-        EditSensorFragment fragment = new EditSensorFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_SENSOR_ID, sensor.getId());
-        fragment.setArguments(args);
-        return fragment;
+        mSensor = new SensorEntity(sensor);
+        return new EditSensorFragment();
     }
 }

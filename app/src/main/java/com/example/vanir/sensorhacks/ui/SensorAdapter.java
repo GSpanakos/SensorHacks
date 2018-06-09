@@ -81,6 +81,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.SensorView
         holder.binding.snsListviewType.setSelected(true);
         holder.binding.snsListviewValue.setSelected(true);
         holder.binding.executePendingBindings();
+
     }
 
     @Override

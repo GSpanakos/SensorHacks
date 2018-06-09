@@ -67,7 +67,7 @@ public class ActuatorListFragment extends Fragment {
                     mBinding.setIsLoading(true);
                 }
                 // espresso does not know how to wait for data binding's loop so we execute changes
-                // sync.
+                // syncs.
                 mBinding.executePendingBindings();
             }
         });

@@ -76,6 +76,8 @@ public class ActuatorAdapter extends RecyclerView.Adapter<ActuatorAdapter.Actuat
     @Override
     public void onBindViewHolder(ActuatorViewHolder holder, int position) {
         holder.binding.setActuator(mActuatorList.get(position));
+        holder.binding.actListviewName.setSelected(true);
+        holder.binding.actListviewType.setSelected(true);
         holder.binding.executePendingBindings();
     }
 

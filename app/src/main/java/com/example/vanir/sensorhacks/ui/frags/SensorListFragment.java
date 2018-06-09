@@ -81,6 +81,4 @@ public class SensorListFragment extends Fragment {
             }
         }
     };
-
-
 }

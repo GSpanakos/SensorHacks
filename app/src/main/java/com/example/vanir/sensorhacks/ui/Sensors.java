@@ -130,6 +130,7 @@ public class Sensors extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().addToBackStack("sensor").replace(R.id.fragment_container, sensorFragment, null).commit();
     }
 
+
     public void startHome(View view) {
         Intent intent = new Intent(Sensors.this, MainActivity.class);
         startActivity(intent);

@@ -1,5 +1,7 @@
 package com.example.vanir.sensorhacks.ui;
 
+import android.view.View;
+
 import com.example.vanir.sensorhacks.model.Sensor;
 
 /**

@@ -5,16 +5,22 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.content.Context;
 import android.databinding.ObservableField;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
+import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.model.Actuator;
+import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
+import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
 import java.util.List;
 
@@ -26,20 +32,15 @@ public class ActuatorViewModel extends AndroidViewModel {
 
     private final LiveData<ActuatorEntity> mObservableActuator;
     public ObservableField<ActuatorEntity> actuator = new ObservableField<>();
-    public final int mActuatorId;
     public static DataRepository nRepository;
-    public static int nActuatorId;
-    private static int flag;
     private static final String TAG = "delete_error_from_db";
 
     public ActuatorViewModel(@NonNull Application application, DataRepository repository,
                              final int actuatorId) {
         super(application);
-        mActuatorId = actuatorId;
-        mObservableActuator = repository.loadActuator(mActuatorId);
-
+        mObservableActuator = repository.loadActuator(actuatorId);
         nRepository = repository;
-        nActuatorId = actuatorId;
+
     }
 
     /**
@@ -63,8 +64,8 @@ public class ActuatorViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application mApplication;
-        public final int mActuatorId;
-        public final DataRepository mRepository;
+        private int mActuatorId;
+        private final DataRepository mRepository;
 
         public Factory(@NonNull Application application, int actuatorId) {
             mApplication = application;
@@ -81,12 +82,17 @@ public class ActuatorViewModel extends AndroidViewModel {
 
     public static void deleteActuatorTask(int actuatorId, View view) {
         ActuatorViewModel.DeleteActuatorTask task = new ActuatorViewModel.DeleteActuatorTask();
-        flag = 0;
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                ActuatorEntity dactuator = nRepository.loadActuatorSync(nActuatorId);
-                task.execute(dactuator);
+                ActuatorEntity dactuator = nRepository.loadActuatorSync(actuatorId);
+                //inspection not really needed unless there is addtobackstack in editactuatorviewmodel.startnewfrag
+                if (dactuator == null) {
+                    Snackbar.make(view, "Already Deleted", Snackbar.LENGTH_LONG).setAction("DelAction", null).show();
+                } else {
+                    task.execute(dactuator);
+                    startNewFrag(view);
+                }
             }
         });
     }
@@ -98,5 +104,14 @@ public class ActuatorViewModel extends AndroidViewModel {
             nRepository.delete(actuatorEntities[0]);
             return null;
         }
+    }
+
+    private static void startNewFrag(View view) {
+        Context context = view.getContext();
+        if (context instanceof FragmentActivity) {
+            FragmentActivity fragmentActivity = (FragmentActivity) context;
+            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_actuator_container, new ActuatorListFragment(), null).commit();
+        }
+
     }
 }

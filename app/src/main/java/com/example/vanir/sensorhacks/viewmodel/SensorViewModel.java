@@ -3,12 +3,14 @@ package com.example.vanir.sensorhacks.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +19,9 @@ import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
+import com.github.mikephil.charting.data.LineData;
 
 import java.util.List;
 
@@ -30,17 +34,13 @@ public class SensorViewModel extends AndroidViewModel {
     private final LiveData<SensorEntity> mObservableSensor;
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
     private static DataRepository nRepository;
-    private static int nSensorId;
-    private static int flagD;
-    private static final String TAGD = "delete_error_from_db";
+    private static final String TAG = "delete_error_from_db";
 
     private SensorViewModel(@NonNull Application application, DataRepository repository,
                             final int sensorId) {
         super(application);
         mObservableSensor = repository.loadSensor(sensorId);
-
         nRepository = repository;
-        nSensorId = sensorId;
     }
 
     /**
@@ -85,12 +85,18 @@ public class SensorViewModel extends AndroidViewModel {
 
     public static void deleteSensorTask(int sensorId, View view) {
         DeleteSensorTask task = new DeleteSensorTask();
-        flagD = 0;
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SensorEntity dsensor = nRepository.loadSensorSync(nSensorId);
-                task.execute(dsensor);
+                SensorEntity dsensor = nRepository.loadSensorSync(sensorId);
+
+                //inspection not really needed unless there is addtobackstack in editsensorviewmodel.startnewfrag
+                if (dsensor == null) {
+                    Snackbar.make(view, "Already Deleted", Snackbar.LENGTH_LONG).setAction("DelAction", null).show();
+                } else {
+                    task.execute(dsensor);
+                    startNewFrag(view);
+                }
             }
         });
     }
@@ -105,7 +111,14 @@ public class SensorViewModel extends AndroidViewModel {
         }
     }
 
+    private static void startNewFrag(View view) {
+        Context context = view.getContext();
+        if (context instanceof FragmentActivity) {
+            FragmentActivity fragmentActivity = (FragmentActivity) context;
+            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SensorListFragment(), null).commit();
+        }
 
+    }
 }
 
 

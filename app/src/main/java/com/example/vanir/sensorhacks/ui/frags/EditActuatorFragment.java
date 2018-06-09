@@ -3,7 +3,6 @@ package com.example.vanir.sensorhacks.ui.frags;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -27,9 +26,8 @@ public class EditActuatorFragment extends Fragment {
 
     private static final String KEY_ACTUATOR_ID = "actuator_id";
     public static int mActuatorId;
-    public static ActuatorEntity actuatorForLayout;
+    public static ActuatorEntity mActuator;
     private EditActuatorFragmentBinding mBinding;
-    private ActuatorEntity mActuator;
     private boolean toggleButton = false;
     public static final String TAG = "update_actuator_to_db";
 
@@ -61,7 +59,7 @@ public class EditActuatorFragment extends Fragment {
                     EditActuatorViewModel.editActuatorTask(mActuator, v);
 
                 } catch (Exception e) {
-                    Snackbar.make(v, "Prolly not needed", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(v, "Something went wrong", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
             }
         });
@@ -89,18 +87,23 @@ public class EditActuatorFragment extends Fragment {
 
             @Override
             public void onChanged(@Nullable ActuatorEntity actuatorEntity) {
-                model.setActuator(actuatorEntity);
+                if ((actuatorEntity != null) && (mActuator == null)) {
+
+                    mActuator = actuatorEntity;
+                    mBinding.setActuator(mActuator);
+                    model.setActuator(mActuator);
+
+                } else {
+                    mBinding.setActuator(actuatorEntity);
+                    model.setActuator(actuatorEntity);
+                }
             }
         });
     }
 
     public static EditActuatorFragment forEditActuator(ActuatorEntity actuator) {
         mActuatorId = actuator.getId();
-        actuatorForLayout = actuator;
-        EditActuatorFragment fragment = new EditActuatorFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_ACTUATOR_ID, actuator.getId());
-        fragment.setArguments(args);
-        return fragment;
+        mActuator = actuator;
+        return new EditActuatorFragment();
     }
 }

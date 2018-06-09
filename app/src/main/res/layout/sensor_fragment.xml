@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="android.view.View" />
-
         <variable
             name="isLoading"
             type="boolean" />
@@ -19,9 +16,6 @@
             name="sensor"
             type="com.example.vanir.sensorhacks.model.Sensor" />
 
-        <variable
-            name="callback"
-            type="com.example.vanir.sensorhacks.ui.frags.SensorFragment" />
 
     </data>
 
@@ -58,6 +52,7 @@
                 android:text="@string/minusBtnDescrptn" />
 
         </RelativeLayout>
+
 
     </LinearLayout>
 </layout>

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="editActuatorFragment"
-            type="com.example.vanir.sensorhacks.ui.frags.EditActuatorFragment" />
+            name="actuator"
+            type="com.example.vanir.sensorhacks.db.ActuatorEntity" />
 
         <variable
             name="editActuatorViewModel"
@@ -39,7 +39,7 @@
                 android:hint="@string/Name_Hint"
                 android:inputType="text"
                 android:singleLine="true"
-                android:text="@{editActuatorFragment.actuatorForLayout.name}"
+                android:text="@{actuator.name}"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
@@ -56,7 +56,7 @@
                 android:ems="10"
                 android:hint="@string/Type_Hint"
                 android:inputType="text"
-                android:text="@{editActuatorFragment.actuatorForLayout.type}" />
+                android:text="@{actuator.type}" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -64,7 +64,7 @@
             android:id="@+id/editToggleActuatorButtonStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(editActuatorFragment.actuatorForLayout.status)}"
+            android:text="@{String.valueOf(safeUnbox(actuator.status))}"
             android:textOff="@string/Status_Act_Off"
             android:textOn="@string/Status_Act_On"
             android:visibility="visible" />
