@@ -87,9 +87,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static void insertData(final AppDatabase database, final List<SensorEntity> sensors, final List<ActuatorEntity> actuators) {
-        database.runInTransaction(() -> {
-            database.sensorDAO().insertAll(sensors);
-        });
+        database.runInTransaction(() -> database.sensorDAO().insertAll(sensors));
         database.runInTransaction(() -> {
             database.actuatorDAO().insertAll(actuators);
         });

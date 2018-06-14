@@ -16,4 +16,5 @@
     <dimen name="iner_kit_menu_textsize">32sp</dimen>
     <dimen name="imagebutton_text_size">24sp</dimen>
     <dimen name="listview_name_textsize">24sp</dimen>
+    <dimen name="elements_options">20sp</dimen>
 </resources>

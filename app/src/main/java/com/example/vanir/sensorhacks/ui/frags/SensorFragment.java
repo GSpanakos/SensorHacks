@@ -3,6 +3,7 @@ package com.example.vanir.sensorhacks.ui.frags;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.databinding.generated.callback.OnClickListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 
@@ -26,7 +28,7 @@ public class SensorFragment extends Fragment {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     private SensorFragmentBinding mBinding;
-    private static final String TAG = "Delete_Sensor", TAG2 = "After_Delete_Frag", TAG3 = "Edit_Sensor";
+    private static final String TAG = "Delete_Sensor", TAG2 = "After_Delete_Frag", TAG3 = "Edit_Sensor", TAG4 = "Fetch_Data";
     public static int mSensorId;
     public static SensorEntity mSensor;
 
@@ -52,11 +54,20 @@ public class SensorFragment extends Fragment {
         mBinding.editSensor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG3, "onClick: " + mSensorId);
+                Log.d(TAG3, "onClick edit: " + mSensorId);
                 EditSensorFragment editSensorFragment = EditSensorFragment.forEditSensor(mSensor);
                 getFragmentManager().beginTransaction().addToBackStack(TAG3).replace(R.id.fragment_container, editSensorFragment, null).commit();
             }
         });
+
+
+//        mBinding.fetchSensorData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(TAG4, "onClick fetch: " +mSensorId);
+//                Sensors.onDownloadData(v, mSensorId);
+//            }
+//        });
 
         return mBinding.getRoot();
     }
@@ -100,4 +111,5 @@ public class SensorFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 }
