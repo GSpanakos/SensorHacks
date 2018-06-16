@@ -2,7 +2,6 @@ package com.example.vanir.sensorhacks.ui;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,13 +25,13 @@ import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.ui.frags.AddSensorFragment;
-import com.example.vanir.sensorhacks.ui.frags.EditSensorFragment;
 import com.example.vanir.sensorhacks.ui.frags.SensorFragment;
 import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 
@@ -46,6 +45,7 @@ public class Sensors extends AppCompatActivity {
     private final String DEVICE_ADDRESS = "98:D3:31:FC:9E:6A";
     private boolean deviceConnected = false;
     private byte buffer[];
+    private StringBuffer stringBuffer;
     private InputStream inputStream;
     private OutputStream outputStream;
     public DrawerLayout drawerLayout;
@@ -202,7 +202,7 @@ public class Sensors extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // textView.append("\nSent Data:" + string + "\n");
+        // textView.append("\nSent Data:" + stringBuffer + "\n");
 
         Log.i(TAG, "onSendParametersForFetch: Data Sent" + string);
 
@@ -274,6 +274,7 @@ public class Sensors extends AppCompatActivity {
         final Handler handler = new Handler();
         stopThread = false;
         buffer = new byte[1024];
+        stringBuffer = new StringBuffer(buffer.length);
         Thread thread = new Thread(new Runnable() {
             public void run() {
                 while (!Thread.currentThread().isInterrupted() && !stopThread) {
@@ -283,16 +284,24 @@ public class Sensors extends AppCompatActivity {
                             byte[] rawBytes = new byte[byteCount];
                             inputStream.read(rawBytes);
                             final String string = new String(rawBytes, "UTF-8");
-                            handler.post(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "next measure: " + string, Toast.LENGTH_SHORT).show();
-                                    Log.i(TAG, "runs: " + string);
-                                    //textView.append(string);
-                                }
-                            });
+                            Sensors.this.stringBuffer.append(string);
+                            //stringBuffer.append(read);
+                            Log.i(TAG, "papakia: " + Sensors.this.stringBuffer);
+                            String sstring[] = stringBuffer.toString().split("~");
+                            Log.i(TAG, "SPLIIIIIIIIIIT" + Arrays.toString(sstring));
+
+                            /** usefull only for UI calls, like textview editing **/
+//                            handler.post(new Runnable() {
+//                                public void run() {
+//                                    //Toast.makeText(getApplicationContext(), "next measure: " + stringBuffer, Toast.LENGTH_SHORT).show();
+//                                    //Log.i(TAG, "runs: " + string);
+//                                    //textView.append(stringBuffer);
+//                                }
+//                            });
 
                         }
                     } catch (IOException ex) {
+                        Log.i(TAG, "catch exception");
                         stopThread = true;
                     }
                 }
@@ -302,29 +311,29 @@ public class Sensors extends AppCompatActivity {
         thread.start();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopThread = true;
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        deviceConnected = false;
-        Log.i(TAG, "\nonPause: Connection Closed!\n");
-
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        stopThread = true;
+//        try {
+//            outputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            inputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        deviceConnected = false;
+//        Log.i(TAG, "\nonPause: Connection Closed!\n");
+//
+//    }
 
     @Override
     protected void onDestroy() {
