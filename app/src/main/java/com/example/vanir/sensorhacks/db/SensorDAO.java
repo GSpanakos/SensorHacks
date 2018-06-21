@@ -27,6 +27,9 @@ public interface SensorDAO {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateSensor(SensorEntity sensor);
 
+    @Query("UPDATE sensors SET value = :newValue WHERE id = :sensorId")
+    void updateSensorValue(Double newValue, int sensorId);
+
     @Delete
     void deleteSensor(SensorEntity sensor);
 

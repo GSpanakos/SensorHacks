@@ -20,25 +20,15 @@ public class DataRepository {
 
     private static DataRepository sInstance;
     private final AppDatabase mDatabase;
-    private MediatorLiveData<SensorEntity> mTestObservableSensor;
     private MediatorLiveData<List<SensorEntity>> mObservableSensors;
     private MediatorLiveData<List<ActuatorEntity>> mObservableActuators;
-    private int mSensorId;
 
     private DataRepository(final AppDatabase database) {
 
         mDatabase = database;
-        mTestObservableSensor = new MediatorLiveData<>();
         mObservableSensors = new MediatorLiveData<>();
         mObservableActuators = new MediatorLiveData<>();
 
-
-//        mTestObservableSensor.addSource(mDatabase.sensorDAO().loadSensor(mSensorId),
-//                sensorEntity -> {
-//            if (mDatabase.getDatabaseCreated().getValue() != null) {
-//                mTestObservableSensor.postValue(sensorEntity);
-//            }
-//                });
 
         mObservableSensors.addSource(mDatabase.sensorDAO().loadAllSensors(),
                 sensorEntities -> {
@@ -73,10 +63,6 @@ public class DataRepository {
         return mObservableSensors;
     }
 
-//    public LiveData<SensorEntity> loadTestSensor (final int sensorId) {
-//        mSensorId = sensorId;
-//        return mTestObservableSensor;
-//    }
 
     public List<SensorEntity> loadAllSensorsSync() {
         return mDatabase.sensorDAO().loadAllSensorsSync();
@@ -105,6 +91,10 @@ public class DataRepository {
 
     public void updateSensor(SensorEntity sensor) {
         mDatabase.sensorDAO().updateSensor(sensor);
+    }
+
+    public void updateSensorValue(Double newValue, int sensorId) {
+        mDatabase.sensorDAO().updateSensorValue(newValue, sensorId);
     }
 
     /**

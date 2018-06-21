@@ -33,6 +33,7 @@ public class SensorViewModel extends AndroidViewModel {
 
     private final LiveData<SensorEntity> mObservableSensor;
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
+    public static int mSensorId;
     private static DataRepository nRepository;
     private static final String TAG = "delete_error_from_db";
 
@@ -65,7 +66,6 @@ public class SensorViewModel extends AndroidViewModel {
 
         @NonNull
         private final Application mApplication;
-        private int mSensorId;
         private final DataRepository mRepository;
 
         public Factory(@NonNull Application application, int sensorId) {
