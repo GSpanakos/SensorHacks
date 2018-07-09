@@ -29,6 +29,7 @@ import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 
 /**
@@ -163,7 +164,13 @@ public class Sensors extends AppCompatActivity {
     }
 
     public void onStopDownloading(View view) {
-
+        final String string = "Stop";
+        string.concat("\n");
+        try {
+            Bluetooth.outputStream.write(string.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Bluetooth.stopThread = true;
         try {
             Bluetooth.outputStream.close();
@@ -212,28 +219,28 @@ public class Sensors extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Bluetooth.stopThread = true;
-        try {
-            Bluetooth.outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            Bluetooth.inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            Bluetooth.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Bluetooth.deviceConnected = false;
-        Log.i(TAG, "\nonDestroy: Connection Closed!\n");
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Bluetooth.stopThread = true;
+//        try {
+//            Bluetooth.outputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Bluetooth.inputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Bluetooth.socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        Bluetooth.deviceConnected = false;
+//        Log.i(TAG, "\nonDestroy: Connection Closed!\n");
+//    }
 }
 
 

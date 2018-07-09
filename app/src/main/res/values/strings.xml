@@ -14,6 +14,7 @@
     <string name="plusActBtnDescrptn">Add Actuator</string>
     <string name="minusActBtnDescrptn">Delete Actuator</string>
     <string name="editActBtnDescrptn">Edit Actuator</string>
+    <string name="Spinner_Prompt">Select a Type</string>
 
     <string name="edit_text_location">Location</string>
     <string name="plusBtnDescrptn">Add Sensor</string>
@@ -39,6 +40,7 @@
     <string name="Status_Act_On">Actuator Online</string>
     <string name="Status_Act_Off">Actuator Offline</string>
     <string name="Id_Act_Hint">Insert Actuator unique Id</string>
+    <string name="Sensor_Info_Hint">Insert general sensor info</string>
 
     <string name="Name_Hint">Insert Sensor name</string>
     <string name="Type_Hint">Insert Sensor type</string>

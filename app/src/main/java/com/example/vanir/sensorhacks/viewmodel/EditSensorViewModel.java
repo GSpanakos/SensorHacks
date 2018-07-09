@@ -10,6 +10,7 @@ import android.databinding.ObservableField;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.example.vanir.sensorhacks.BasicApp;
@@ -25,10 +26,10 @@ import com.example.vanir.sensorhacks.ui.frags.SensorListFragment;
 
 public class EditSensorViewModel extends AndroidViewModel {
 
+    private static final String TAG = "asdfasdgfsd";
     private final LiveData<SensorEntity> mObservableSensor;
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
     private static DataRepository nRepository;
-    public static final String TAGE = "update_sensor_on_db";
 
     public EditSensorViewModel(@NonNull Application application, DataRepository repository,
                                final int sensorId) {

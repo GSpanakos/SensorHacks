@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Γιώργος on 16/1/2018.
  */
 
-@Database(entities = {SensorEntity.class, ActuatorEntity.class}, version = 3, exportSchema = true)
+@Database(entities = {SensorEntity.class, ActuatorEntity.class}, version = 4, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -70,7 +70,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     database.setDatabaseCreated();
                 });
             }
-        }).addMigrations(MIGRATION_2_3).build();
+        }).addMigrations(MIGRATION_2_3, MIGRATION_3_4).build();
     }
 
     /**
@@ -108,6 +108,16 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE 'actuators' ('id' INTEGER NOT NULL, 'name' TEXT, 'type' TEXT, 'status' INTEGER, PRIMARY KEY('id'))");
+        }
+    };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE new_sensors (id INTEGER NOT NULL, name TEXT NOT NULL, type TEXT, status INTEGER, value REAL NOT NULL, PRIMARY KEY(id, name))");
+            database.execSQL("INSERT INTO new_sensors (id, name, type, status, value) SELECT id, name, type, status, value FROM sensors");
+            database.execSQL("DROP TABLE sensors");
+            database.execSQL("ALTER TABLE new_sensors RENAME TO sensors");
         }
     };
 }

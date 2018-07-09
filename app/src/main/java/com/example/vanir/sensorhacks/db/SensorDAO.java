@@ -42,6 +42,9 @@ public interface SensorDAO {
     @Query("SELECT id FROM sensors")
     List<Integer> loadIds();
 
+    @Query("SELECT name FROM sensors")
+    List<String> loadNames();
+
     @Query("SELECT * FROM sensors WHERE id = :sensorId")
     LiveData<SensorEntity> loadSensor(int sensorId);
 
@@ -50,4 +53,6 @@ public interface SensorDAO {
 
     @Query("DELETE FROM sensors")
     void removeAllSensors();
+
+
 }

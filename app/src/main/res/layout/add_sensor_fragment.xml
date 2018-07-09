@@ -27,26 +27,35 @@
                 android:inputType="text"
                 android:singleLine="true"
                 android:text="@string/Sensor_Name"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:paddingBottom="@dimen/iner_kit_menu_padding2" />
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <Spinner
+            android:id="@+id/editSensorTypeSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:prompt="@string/Spinner_Prompt"
+            android:paddingBottom="@dimen/iner_kit_menu_padding2" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTexttype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/Type_Hint"
-                android:inputType="text"
-                android:text="@string/Sensor_Type" />
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        </android.support.design.widget.TextInputLayout>
+        <!--<android.support.design.widget.TextInputEditText-->
+        <!--android:id="@+id/editTexttype"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ems="10"-->
+        <!--android:hint="@string/Type_Hint"-->
+        <!--android:inputType="text"-->
+        <!--android:text="@string/Sensor_Type" />-->
+
+        <!--</android.support.design.widget.TextInputLayout>-->
 
         <ToggleButton
+            android:paddingTop="@dimen/iner_kit_menu_padding2"
             android:id="@+id/toggleButtonstatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

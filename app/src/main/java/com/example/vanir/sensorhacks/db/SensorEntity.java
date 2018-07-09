@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 
 import com.example.vanir.sensorhacks.model.Sensor;
 
@@ -12,13 +13,14 @@ import com.example.vanir.sensorhacks.model.Sensor;
  * Created by Γιώργος on 14/1/2018.
  */
 
-@Entity(tableName = "sensors")
+@Entity(tableName = "sensors", primaryKeys = {"id", "name"})
 public class SensorEntity implements Sensor {
 
-    @PrimaryKey
+    @NonNull
     private int id;
-    //  public final int id;
+    @NonNull
     private String name;
+
     private String type;
     private Boolean status;
     private double value;
@@ -32,12 +34,13 @@ public class SensorEntity implements Sensor {
         this.id = id;
     }
 
+    @NonNull
     @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
@@ -72,7 +75,7 @@ public class SensorEntity implements Sensor {
     public SensorEntity() {
     }
 
-    public SensorEntity(int id, String name, String type, Boolean status, double value) {
+    public SensorEntity(int id, @NonNull String name, String type, Boolean status, double value) {
         this.id = id;
         this.name = name;
         this.type = type;

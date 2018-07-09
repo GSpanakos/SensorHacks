@@ -6,6 +6,7 @@ package com.example.vanir.sensorhacks;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.util.Log;
 
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.db.AppDatabase;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 public class DataRepository {
 
+    private static final String TAG = "AESFsf";
     private static DataRepository sInstance;
     private final AppDatabase mDatabase;
     private MediatorLiveData<List<SensorEntity>> mObservableSensors;
@@ -72,6 +74,10 @@ public class DataRepository {
         return mDatabase.sensorDAO().loadIds();
     }
 
+    public List<String> loadSensorNames() {
+        return mDatabase.sensorDAO().loadNames();
+    }
+
     public LiveData<SensorEntity> loadSensor(final int sensorId) {
         return mDatabase.sensorDAO().loadSensor(sensorId);
     }
@@ -89,8 +95,8 @@ public class DataRepository {
         mDatabase.sensorDAO().deleteSensor(sensorEntity);
     }
 
-    public void updateSensor(SensorEntity sensor) {
-        mDatabase.sensorDAO().updateSensor(sensor);
+    public void updateSensor(SensorEntity sensorEntity) {
+        mDatabase.sensorDAO().updateSensor(sensorEntity);
     }
 
     public void updateSensorValue(Double newValue, int sensorId) {
@@ -132,4 +138,5 @@ public class DataRepository {
     public void updateActuator(ActuatorEntity actuator) {
         mDatabase.actuatorDAO().updateActuator(actuator);
     }
+
 }

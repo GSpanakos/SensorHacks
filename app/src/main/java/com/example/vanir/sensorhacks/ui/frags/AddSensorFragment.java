@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 
 import com.example.vanir.sensorhacks.R;
@@ -19,13 +21,14 @@ import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
  * Created by Γιώργος on 8/5/2018.
  */
 
-public class AddSensorFragment extends Fragment {
+public class AddSensorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private static final String KEY_SENSOR_ID = "sensor_id";
     public AddSensorFragmentBinding mBinding;
     public static final String TAG = "add_sensor_to_db";
     public SensorEntity mSensor;
     public Boolean toggleButton = false;
+    private String sensor_Type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class AddSensorFragment extends Fragment {
 
                     mSensor = new SensorEntity(Integer.parseInt(mBinding.uniqueId.getText().toString()),
                             mBinding.editTextname.getText().toString(),
-                            mBinding.editTexttype.getText().toString(),
+                            sensor_Type,
                             toggleButton,
                             Double.parseDouble(mBinding.editTextvalue.getText().toString()));
 
@@ -67,7 +70,22 @@ public class AddSensorFragment extends Fragment {
             }
         });
 
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.sensor_types, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mBinding.editSensorTypeSpinner.setAdapter(spinnerAdapter);
+        mBinding.editSensorTypeSpinner.setOnItemSelectedListener(this);
+
 
         return mBinding.getRoot();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        sensor_Type = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

@@ -162,7 +162,7 @@ public class Bluetooth {
                             String sstring[] = stringBuffer.toString().split("~");
                             Log.i(TAG, "SPLIIIIIIIIIIT" + Arrays.toString(sstring));
                             if (sstring.length > 1) {
-                                updateValue(sstring[sstring.length - 1]);
+                                updateValue(sstring[sstring.length - 2]);
                             }
 
                             Log.i(TAG, "an doulevei allagi sensorid: " + stringBuffer);
