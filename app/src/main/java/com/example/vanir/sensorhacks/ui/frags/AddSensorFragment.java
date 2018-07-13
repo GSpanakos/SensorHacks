@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.AddSensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.viewmodel.SensorListViewModel;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Γιώργος on 8/5/2018.
@@ -61,6 +64,7 @@ public class AddSensorFragment extends Fragment implements AdapterView.OnItemSel
                             sensor_Type,
                             toggleButton,
                             Double.parseDouble(mBinding.editTextvalue.getText().toString()));
+
 
                     SensorListViewModel.insertSensorTask(mSensor, v);
 

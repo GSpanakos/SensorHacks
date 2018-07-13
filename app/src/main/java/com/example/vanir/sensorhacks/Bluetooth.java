@@ -10,13 +10,18 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.vanir.sensorhacks.db.SensorValueEntity;
 import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -40,6 +45,7 @@ public class Bluetooth {
     private byte[] buffer;
     private StringBuffer stringBuffer;
     private static DataRepository mRepository;
+    private static SimpleDateFormat simpleDateFormat;
 
 
     public Bluetooth(DataRepository repository, Context context) {
@@ -203,6 +209,31 @@ public class Bluetooth {
         @Override
         protected Void doInBackground(Double... doubles) {
             mRepository.updateSensorValue(doubles[0], Sensors.mSensorId);
+
+            Date date = Calendar.getInstance().getTime();
+            SensorValueEntity mockValue = mRepository.getLastSensorEntry();
+            SimpleDateFormat secFormat = new SimpleDateFormat("mmss");
+
+            if (mockValue == null) {
+                mRepository.insertSensorValue(new SensorValueEntity(Sensors.mSensorId, Sensors.mSensorName, date, doubles[0]));
+                mockValue = mRepository.getLastSensorEntry();
+            }
+
+
+            Log.i(TAG, "doInBackground: TWRA - DB = " + secFormat.format(date) + " - " + secFormat.format(mockValue.getDate()));
+            Log.i(TAG, "doInBackground: DIAFORA: " + (Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))));
+
+            if ((Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))) < 3) {
+                Log.i(TAG, "doInBackground: skipped entry due to same date");
+            } else {
+                Log.i(TAG, "Metrhseis pou THA mpoun: ID: " + Sensors.mSensorId + " NAME: " + Sensors.mSensorName + " DATE: " + date + " VALUE: " + doubles[0]);
+                mRepository.insertSensorValue(new SensorValueEntity(Sensors.mSensorId, Sensors.mSensorName, date, doubles[0]));
+            }
+
+
+            Log.i(TAG, "doInBackground: TELEFTEO ENTRY: ID: " + mockValue.getId() + " NAME: " + mockValue.getName() + " DATE: " + mockValue.getDate() + " VALUE: " + mockValue.getValue());
+
+
             return null;
         }
     }

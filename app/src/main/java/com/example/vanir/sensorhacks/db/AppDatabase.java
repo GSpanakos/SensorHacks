@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.arch.persistence.room.Database;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.example.vanir.sensorhacks.AppExecutors;
+import com.example.vanir.sensorhacks.Converters;
 import com.example.vanir.sensorhacks.model.Actuator;
 
 import java.util.List;
@@ -20,7 +23,8 @@ import java.util.List;
  * Created by Γιώργος on 16/1/2018.
  */
 
-@Database(entities = {SensorEntity.class, ActuatorEntity.class}, version = 4, exportSchema = true)
+@Database(entities = {SensorEntity.class, ActuatorEntity.class, SensorValueEntity.class}, version = 9, exportSchema = true)
+@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
@@ -29,6 +33,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "basic-sample-db";
 
     public abstract SensorDAO sensorDAO();
+
+    public abstract SensorValueDao sensorValueDao();
 
     public abstract ActuatorDAO actuatorDAO();
 
@@ -70,7 +76,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     database.setDatabaseCreated();
                 });
             }
-        }).addMigrations(MIGRATION_2_3, MIGRATION_3_4).build();
+        }).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build();
     }
 
     /**
@@ -118,6 +124,53 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("INSERT INTO new_sensors (id, name, type, status, value) SELECT id, name, type, status, value FROM sensors");
             database.execSQL("DROP TABLE sensors");
             database.execSQL("ALTER TABLE new_sensors RENAME TO sensors");
+        }
+    };
+
+    public static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE sensorValues (id INTEGER NOT NULL, name TEXT NOT NULL, timestamp INTEGER, value REAL NOT NULL, PRIMARY KEY(id, name), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+        }
+    };
+
+    public static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE newSensorValues (id INTEGER NOT NULL, name TEXT NOT NULL, date INTEGER, value REAL NOT NULL, PRIMARY KEY(id, name), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE sensorValues");
+            database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
+        }
+    };
+
+    public static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE newSensorValues (id INTEGER NOT NULL, name TEXT NOT NULL, date TEXT, value REAL NOT NULL, PRIMARY KEY(id, name), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE sensorValues");
+            database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
+        }
+    };
+
+    public static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE newSensorValues (row INTEGER NOT NULL, id INTEGER NOT NULL, name TEXT NOT NULL, date TEXT, value REAL NOT NULL, PRIMARY KEY(row), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE sensorValues");
+            database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
+            database.execSQL("CREATE INDEX index_sensorValues_id_name on sensorValues (id, name)");
+
+        }
+    };
+
+    public static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE newSensorValues (row INTEGER, id INTEGER NOT NULL, name TEXT NOT NULL, date TEXT, value REAL NOT NULL, PRIMARY KEY(row), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE sensorValues");
+            database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
+            database.execSQL("CREATE INDEX index_sensorValues_id_name on sensorValues (id, name)");
+
         }
     };
 }

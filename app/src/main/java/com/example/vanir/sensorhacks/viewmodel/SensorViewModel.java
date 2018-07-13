@@ -34,11 +34,12 @@ public class SensorViewModel extends AndroidViewModel {
     private final LiveData<SensorEntity> mObservableSensor;
     public ObservableField<SensorEntity> sensor = new ObservableField<>();
     public static int mSensorId;
+    public static String mSensorName;
     private static DataRepository nRepository;
     private static final String TAG = "delete_error_from_db";
 
     private SensorViewModel(@NonNull Application application, DataRepository repository,
-                            final int sensorId) {
+                            final int sensorId, final String mSensorName) {
         super(application);
         mObservableSensor = repository.loadSensor(sensorId);
         nRepository = repository;
@@ -68,9 +69,10 @@ public class SensorViewModel extends AndroidViewModel {
         private final Application mApplication;
         private final DataRepository mRepository;
 
-        public Factory(@NonNull Application application, int sensorId) {
+        public Factory(@NonNull Application application, int sensorId, String sensorName) {
             mApplication = application;
             mSensorId = sensorId;
+            mSensorName = sensorName;
             mRepository = ((BasicApp) application).getRepository();
         }
 
@@ -78,7 +80,7 @@ public class SensorViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new SensorViewModel(mApplication, mRepository, mSensorId);
+            return (T) new SensorViewModel(mApplication, mRepository, mSensorId, mSensorName);
         }
     }
 

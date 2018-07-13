@@ -77,7 +77,7 @@ public class SensorFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         SensorViewModel.Factory factory = new SensorViewModel.Factory(
-                getActivity().getApplication(), getArguments().getInt(KEY_SENSOR_ID));
+                getActivity().getApplication(), getArguments().getInt(KEY_SENSOR_ID), mSensor.getName());
 
         final SensorViewModel model = ViewModelProviders.of(this, factory)
                 .get(SensorViewModel.class);

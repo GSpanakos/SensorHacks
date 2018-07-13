@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.amitshekhar.DebugDB;
 import com.example.vanir.sensorhacks.BasicApp;
 import com.example.vanir.sensorhacks.Bluetooth;
 import com.example.vanir.sensorhacks.DataRepository;
@@ -30,6 +33,11 @@ import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -43,6 +51,7 @@ public class Sensors extends AppCompatActivity {
     private boolean mFlag;
     public static int mSensorId;
     public static String mString;
+    public static String mSensorName, dates[];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +67,15 @@ public class Sensors extends AppCompatActivity {
                 Log.d(TAG, "onClick: pressed!");
                 AddSensorFragment addSensorFragment = new AddSensorFragment();
                 getSupportFragmentManager().beginTransaction().addToBackStack("addsensor").replace(R.id.fragment_container, addSensorFragment, null).commit();
+
+
+//                DebugDB.getAddressLog();
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//                Date date = Calendar.getInstance().getTime();
+//                Log.i(TAG, "onClick: " + date);
+//                Snackbar.make(v, "H vra einai: " + dates[0], Snackbar.LENGTH_LONG).show();
+
+
             }
         });
 
@@ -204,6 +222,7 @@ public class Sensors extends AppCompatActivity {
         if (mFlag) {
             String string = (SensorFragment.mSensor.getName());
             mSensorId = (SensorViewModel.mSensorId);
+            mSensorName = (SensorViewModel.mSensorName);
             string.concat("\n");
             mString = string;
             try {

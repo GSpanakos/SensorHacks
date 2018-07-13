@@ -11,7 +11,9 @@ import android.util.Log;
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.db.AppDatabase;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.db.SensorValueEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,6 +104,22 @@ public class DataRepository {
     public void updateSensorValue(Double newValue, int sensorId) {
         mDatabase.sensorDAO().updateSensorValue(newValue, sensorId);
     }
+
+    /**
+     * Here we query sensor values
+     */
+
+    public void insertSensorValue(SensorValueEntity valueEntity) {
+        mDatabase.sensorValueDao().insert(valueEntity);
+    }
+
+    public SensorValueEntity getLastSensorEntry() {
+        return mDatabase.sensorValueDao().getLastSensorEntry();
+    }
+
+//    public void loadValuesforSensor(int id, String name) {
+//        mDatabase.sensorValueDao().loadValuesforSensor(id, name);
+//    }
 
     /**
      * Get the list of actuators from the database and get notified when the data changes.
