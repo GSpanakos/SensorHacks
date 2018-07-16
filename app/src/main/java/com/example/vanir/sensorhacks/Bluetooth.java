@@ -220,18 +220,18 @@ public class Bluetooth {
             }
 
 
-            Log.i(TAG, "doInBackground: TWRA - DB = " + secFormat.format(date) + " - " + secFormat.format(mockValue.getDate()));
-            Log.i(TAG, "doInBackground: DIAFORA: " + (Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))));
+//            Log.i(TAG, "doInBackground: TWRA - DB = " + secFormat.format(date) + " - " + secFormat.format(mockValue.getDate()));
+//            Log.i(TAG, "doInBackground: DIAFORA: " + (Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))));
 
             if ((Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))) < 3) {
                 Log.i(TAG, "doInBackground: skipped entry due to same date");
             } else {
-                Log.i(TAG, "Metrhseis pou THA mpoun: ID: " + Sensors.mSensorId + " NAME: " + Sensors.mSensorName + " DATE: " + date + " VALUE: " + doubles[0]);
+//                Log.i(TAG, "Metrhseis pou THA mpoun: ID: " + Sensors.mSensorId + " NAME: " + Sensors.mSensorName + " DATE: " + date + " VALUE: " + doubles[0]);
                 mRepository.insertSensorValue(new SensorValueEntity(Sensors.mSensorId, Sensors.mSensorName, date, doubles[0]));
             }
 
 
-            Log.i(TAG, "doInBackground: TELEFTEO ENTRY: ID: " + mockValue.getId() + " NAME: " + mockValue.getName() + " DATE: " + mockValue.getDate() + " VALUE: " + mockValue.getValue());
+//            Log.i(TAG, "doInBackground: TELEFTEO ENTRY: ID: " + mockValue.getId() + " NAME: " + mockValue.getName() + " DATE: " + mockValue.getDate() + " VALUE: " + mockValue.getValue());
 
 
             return null;

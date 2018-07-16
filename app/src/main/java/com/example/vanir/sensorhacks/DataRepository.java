@@ -26,12 +26,16 @@ public class DataRepository {
     private final AppDatabase mDatabase;
     private MediatorLiveData<List<SensorEntity>> mObservableSensors;
     private MediatorLiveData<List<ActuatorEntity>> mObservableActuators;
+    private MediatorLiveData<List<SensorValueEntity>> mObservableSensorValues;
+    private int id;
+    private String name;
 
     private DataRepository(final AppDatabase database) {
 
         mDatabase = database;
         mObservableSensors = new MediatorLiveData<>();
         mObservableActuators = new MediatorLiveData<>();
+        mObservableSensorValues = new MediatorLiveData<>();
 
 
         mObservableSensors.addSource(mDatabase.sensorDAO().loadAllSensors(),
@@ -45,6 +49,13 @@ public class DataRepository {
                 actuatorEntities -> {
                     if (mDatabase.getDatabaseCreated().getValue() != null) {
                         mObservableActuators.postValue(actuatorEntities);
+                    }
+                });
+
+        mObservableSensorValues.addSource(mDatabase.sensorValueDao().getValuesOnIdandName(id, name),
+                sensorValueEntities -> {
+                    if (mDatabase.getDatabaseCreated().getValue() != null) {
+                        mObservableSensorValues.postValue(sensorValueEntities);
                     }
                 });
     }
@@ -115,6 +126,12 @@ public class DataRepository {
 
     public SensorValueEntity getLastSensorEntry() {
         return mDatabase.sensorValueDao().getLastSensorEntry();
+    }
+
+    public LiveData<List<SensorValueEntity>> getValuesOnIdandName(int id, String name) {
+        this.id = id;
+        this.name = name;
+        return mObservableSensorValues;
     }
 
 //    public void loadValuesforSensor(int id, String name) {

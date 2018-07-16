@@ -1,6 +1,9 @@
 package com.example.vanir.sensorhacks.ui.frags;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -10,6 +13,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +22,8 @@ import android.view.ViewGroup;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.LinechartFragmentBinding;
+import com.example.vanir.sensorhacks.db.SensorValueEntity;
+import com.example.vanir.sensorhacks.viewmodel.LineChartViewModel;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -31,7 +38,9 @@ import java.util.List;
  * Created by Γιώργος on 21/5/2018.
  */
 
-public class LineChartFragment extends Fragment implements SensorEventListener {
+public class LineChartFragment extends Fragment {
+
+    //implements SensorEventListener (for in device sensors)
 
     private static final String TAG = "LineChartFragment";
     public LinechartFragmentBinding mBinding;
@@ -42,24 +51,25 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
     //private LineChart mChart;
     //public View view;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //view = inflater.inflate(R.layout.linechart_fragment, container, false);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.linechart_fragment, container, false);
 
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        List<Sensor> hardwareSensors = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
-
-        for (int i = 0; i < hardwareSensors.size(); i++) {
-            Log.d(TAG, "onCreateView: HardwareSesnor " + i + ": " + hardwareSensors.get(i).toString());
-
-        }
-
-        if (mAccelerometer != null) {
-            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-        }
+//        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+//        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+//        List<Sensor> hardwareSensors = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
+//
+//        for (int i = 0; i < hardwareSensors.size(); i++) {
+//            Log.d(TAG, "onCreateView: HardwareSesnor " + i + ": " + hardwareSensors.get(i).toString());
+//
+//        }
+//
+//        if (mAccelerometer != null) {
+//            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+//        }
 
         //mChart = (LineChart) getActivity().findViewById(R.id.linechart_example);
         mBinding.linechartExample.getDescription().setEnabled(true);
@@ -107,6 +117,37 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
         return mBinding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        LineChartViewModel.Factory factory = new LineChartViewModel.Factory(
+                getActivity().getApplication(), getArguments().getInt("id"), getArguments().getString("name")); //need to pass name and id here);
+
+        final LineChartViewModel viewModel =
+                ViewModelProviders.of(this, factory).get(LineChartViewModel.class);
+
+        subscribeUi(viewModel);
+    }
+
+    private void subscribeUi(LineChartViewModel viewModel) {
+        viewModel.getValueOnIdandName().observe(this, new Observer<List<SensorValueEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<SensorValueEntity> sensorValueEntities) {
+                if (sensorValueEntities != null) {
+                    mBinding.setIsLoading(false);
+                    if (plotData) {
+                        addEntry(event);
+                        plotData = false;
+                    }
+                    // do stuff with graphs
+                } else {
+                    mBinding.setIsLoading(true);
+                }
+            }
+        });
+    }
+
     private void feedMultiple() {
 
         if (thread != null) {
@@ -119,7 +160,7 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
                 while (true) {
                     plotData = true;
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -180,13 +221,13 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
             thread.interrupt();
         }
 
-        mSensorManager.unregisterListener(this);
+//        mSensorManager.unregisterListener(this);
     }
 
     @Override
     public void onDestroy() {
 
-        mSensorManager.unregisterListener(LineChartFragment.this);
+//        mSensorManager.unregisterListener(LineChartFragment.this);
         thread.interrupt();
         super.onDestroy();
     }
@@ -194,20 +235,20 @@ public class LineChartFragment extends Fragment implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+//        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
+//    @Override
+//    public void onSensorChanged(SensorEvent event) {
+//
+//        if (plotData) {
+//            addEntry(event);
+//            plotData = false;
+//        }
+//    }
 
-        if (plotData) {
-            addEntry(event);
-            plotData = false;
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //do somth if accuracy changes
-    }
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//        //do somth if accuracy changes
+//    }
 }

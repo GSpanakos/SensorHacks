@@ -39,7 +39,7 @@ public class SensorViewModel extends AndroidViewModel {
     private static final String TAG = "delete_error_from_db";
 
     private SensorViewModel(@NonNull Application application, DataRepository repository,
-                            final int sensorId, final String mSensorName) {
+                            final int sensorId, final String sensorName) {
         super(application);
         mObservableSensor = repository.loadSensor(sensorId);
         nRepository = repository;

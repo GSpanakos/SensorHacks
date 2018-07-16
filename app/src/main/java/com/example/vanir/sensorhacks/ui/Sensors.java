@@ -238,6 +238,22 @@ public class Sensors extends AppCompatActivity {
     }
 
 
+    /**
+     * Note to self, try to put every on click event inside a single function
+     * with a switch case statement
+     */
+
+//    public void plotData (View v) {
+//        switch(v.getId()) {
+//            case R.id.jump_to_graphs:
+//                Intent intent = new Intent(Sensors.this, Graphs.class);
+//                intent.putExtra("EXTRA", "here goes info of id and name");
+//                startActivity(intent);
+//                break;
+//        }
+//    }
+
+
 //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();

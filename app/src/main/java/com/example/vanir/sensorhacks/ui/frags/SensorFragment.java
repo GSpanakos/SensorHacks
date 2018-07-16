@@ -2,6 +2,7 @@ package com.example.vanir.sensorhacks.ui.frags;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.generated.callback.OnClickListener;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
+import com.example.vanir.sensorhacks.ui.Graphs;
 import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
@@ -57,6 +59,17 @@ public class SensorFragment extends Fragment {
                 Log.d(TAG3, "onClick edit: " + mSensorId);
                 EditSensorFragment editSensorFragment = EditSensorFragment.forEditSensor(mSensor);
                 getFragmentManager().beginTransaction().addToBackStack(TAG3).replace(R.id.fragment_container, editSensorFragment, null).commit();
+            }
+        });
+
+        mBinding.jumpToGraphs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Graphs.class);
+                intent.putExtra("id", mSensor.getId());
+                intent.putExtra("name", mSensor.getName());
+                intent.putExtra("destinationChart", "LineChartFragment");
+                startActivity(intent);
             }
         });
 

@@ -8,7 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.vanir.sensorhacks.R;
+import com.example.vanir.sensorhacks.ui.frags.BarChartFragment;
 import com.example.vanir.sensorhacks.ui.frags.GraphsFrag;
+import com.example.vanir.sensorhacks.ui.frags.LineChartFragment;
+
+import java.util.Objects;
 
 
 /**
@@ -24,10 +28,36 @@ public class Graphs extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
 
+
+        switch (intent.getStringExtra("destinationChart")) {
+            case "LineChartFragment":
+                LineChartFragment lineChartFragment = new LineChartFragment();
+                Bundle args = new Bundle();
+                args.putInt("id", getIntent().getExtras().getInt("id"));
+                args.putString("name", getIntent().getExtras().getString("name"));
+                lineChartFragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().addToBackStack("lf").replace(R.id.chart_container, lineChartFragment, null).commit();
+                break;
+            case "BarChartFragment":
+                BarChartFragment barChartFragment = new BarChartFragment();
+                Bundle args2 = new Bundle();
+                args2.putInt("id", getIntent().getExtras().getInt("id"));
+                args2.putString("name", getIntent().getExtras().getString("name"));
+                barChartFragment.setArguments(args2);
+                break;
+            default:
+                if (savedInstanceState == null) {
+                    GraphsFrag fragment = new GraphsFrag();
+                    getSupportFragmentManager().beginTransaction().add(R.id.chart_container, fragment, null).commit();
+                }
+        }
+
         if (savedInstanceState == null) {
             GraphsFrag fragment = new GraphsFrag();
             getSupportFragmentManager().beginTransaction().add(R.id.chart_container, fragment, null).commit();
-        }
+        }  //else if (Objects.equals(getIntent().getStringExtra("EXTRA"), "here goes info of id and name")) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.chart_container, new LineChartFragment()).commit();
+//        }
     }
 
     @Override
