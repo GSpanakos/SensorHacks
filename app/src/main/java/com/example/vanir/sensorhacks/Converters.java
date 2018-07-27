@@ -6,27 +6,23 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Γιώργος on 9/7/2018.
  */
 
 public class Converters {
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     //date.getTime()
 
     @TypeConverter
-    public static Date fromTimeStamp(String value) {
-        try {
-            return value == null ? null : dateFormat.parse(value);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static Date fromTimeStamp(Long value) {
+        return value == null ? null : new Date(value);
     }
 
     @TypeConverter
-    public static String dateToTimeStamp(Date date) {
-        return date == null ? null : dateFormat.format(date.getTime());
+    public static Long dateToTimeStamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 }

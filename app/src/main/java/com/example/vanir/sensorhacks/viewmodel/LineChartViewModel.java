@@ -8,6 +8,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -41,7 +42,7 @@ public class LineChartViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         mObservableSensorValues.setValue(null);
 
-        LiveData<List<SensorValueEntity>> sensorValues = repository.getValuesOnIdandName(sensorId, sensorName);
+        LiveData<List<SensorValueEntity>> sensorValues = repository.loadAllSensorValues();
 
         // observe the changes of the sensors from the database and forward them
         mObservableSensorValues.addSource(sensorValues, mObservableSensorValues::setValue);
@@ -52,7 +53,7 @@ public class LineChartViewModel extends AndroidViewModel {
         private final Application mApplication;
         private final DataRepository mRepository;
 
-        public Factory(@NonNull Application application, int id, String name) {
+        public Factory(@NonNull Application application, int id, @Nullable String name) {
             mApplication = application;
             mId = id;
             mName = name;
@@ -65,10 +66,15 @@ public class LineChartViewModel extends AndroidViewModel {
             //noinspection unchecked
             return (T) new LineChartViewModel(mApplication, mRepository, mId, mName);
         }
+
     }
 
 
     public LiveData<List<SensorValueEntity>> getValueOnIdandName() {
+        return mObservableSensorValues;
+    }
+
+    public LiveData<List<SensorValueEntity>> loadAllSensorValues() {
         return mObservableSensorValues;
     }
 }

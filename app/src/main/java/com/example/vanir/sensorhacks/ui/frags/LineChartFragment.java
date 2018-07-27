@@ -2,36 +2,36 @@ package com.example.vanir.sensorhacks.ui.frags;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vanir.sensorhacks.Bluetooth;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.LinechartFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorValueEntity;
 import com.example.vanir.sensorhacks.viewmodel.LineChartViewModel;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,32 +46,25 @@ public class LineChartFragment extends Fragment {
     public LinechartFragmentBinding mBinding;
     private boolean plotData = true;
     private Thread thread;
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    //private LineChart mChart;
-    //public View view;
+    private Bundle arguments = getArguments();
+    private final long refe_timestamp = 1532649714;
+    private LineData lineData;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        //view = inflater.inflate(R.layout.linechart_fragment, container, false);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.linechart_fragment, container, false);
+        mBinding.clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lineData.clearValues();
+                mBinding.linechartExample.invalidate();
+                //mBinding.linechartExample.clear();
+            }
+        });
 
-//        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-//        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-//        List<Sensor> hardwareSensors = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
-//
-//        for (int i = 0; i < hardwareSensors.size(); i++) {
-//            Log.d(TAG, "onCreateView: HardwareSesnor " + i + ": " + hardwareSensors.get(i).toString());
-//
-//        }
-//
-//        if (mAccelerometer != null) {
-//            mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-//        }
 
-        //mChart = (LineChart) getActivity().findViewById(R.id.linechart_example);
         mBinding.linechartExample.getDescription().setEnabled(true);
         mBinding.linechartExample.setTouchEnabled(true);
         mBinding.linechartExample.setDragEnabled(true);
@@ -90,6 +83,9 @@ public class LineChartFragment extends Fragment {
         legend.setTextColor(Color.BLACK);
 
         XAxis xl = mBinding.linechartExample.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+        IAxisValueFormatter iAxisValueFormatter = new HourAxisValueFormatter(refe_timestamp);
+        xl.setValueFormatter(iAxisValueFormatter);
         xl.setTextColor(Color.BLACK);
         xl.setDrawGridLines(true);
         xl.setAvoidFirstLastClipping(true);
@@ -97,21 +93,23 @@ public class LineChartFragment extends Fragment {
 
         YAxis leftAxis = mBinding.linechartExample.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setAxisMaximum(12f);
+        leftAxis.setAxisMaximum(100f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = mBinding.linechartExample.getAxisRight();
-        rightAxis.setEnabled(true);
+        rightAxis.setEnabled(false);
         rightAxis.setTextColor(Color.BLACK);
-        rightAxis.setAxisMaximum(12f);
+        rightAxis.setAxisMaximum(100f);
         rightAxis.setAxisMinimum(0f);
         rightAxis.setDrawGridLines(true);
 
         mBinding.linechartExample.getAxisLeft().setDrawGridLines(true);
         mBinding.linechartExample.getXAxis().setDrawGridLines(true);
         mBinding.linechartExample.setDrawBorders(true);
+        //mBinding.linechartExample.moveViewToX(data.getEntryCount());
 
+        mBinding.linechartExample.clearValues();
         feedMultiple();
 
         return mBinding.getRoot();
@@ -121,29 +119,45 @@ public class LineChartFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        LineChartViewModel.Factory factory = new LineChartViewModel.Factory(
-                getActivity().getApplication(), getArguments().getInt("id"), getArguments().getString("name")); //need to pass name and id here);
+        if (arguments != null) {
 
-        final LineChartViewModel viewModel =
-                ViewModelProviders.of(this, factory).get(LineChartViewModel.class);
+            LineChartViewModel.Factory factory = new LineChartViewModel.Factory(
+                    getActivity().getApplication(), arguments.getInt("id"), arguments.getString("name")); //need to pass name and id here);
 
-        subscribeUi(viewModel);
+            final LineChartViewModel viewModel =
+                    ViewModelProviders.of(this, factory).get(LineChartViewModel.class);
+            subscribeUi(viewModel);
+        } else {
+            LineChartViewModel.Factory factory = new LineChartViewModel.Factory(
+                    getActivity().getApplication(), -1, null); //need to pass name and id here);
+
+            final LineChartViewModel viewModel =
+                    ViewModelProviders.of(this, factory).get(LineChartViewModel.class);
+            subscribeUi(viewModel);
+        }
+
+
     }
 
     private void subscribeUi(LineChartViewModel viewModel) {
-        viewModel.getValueOnIdandName().observe(this, new Observer<List<SensorValueEntity>>() {
+        viewModel.loadAllSensorValues().observe(this, new Observer<List<SensorValueEntity>>() {
             @Override
             public void onChanged(@Nullable List<SensorValueEntity> sensorValueEntities) {
                 if (sensorValueEntities != null) {
+                    //reference_timestamp = Float.parseFloat(Converters.dateToTimeStamp(sensorValueEntities.get(0).getDate()));
                     mBinding.setIsLoading(false);
                     if (plotData) {
-                        addEntry(event);
+                        Log.i(TAG, "onChanged: SUBSCRIBER CALLED");
+                        addEntry(sensorValueEntities.get(sensorValueEntities.size() - 1));
                         plotData = false;
+
                     }
                     // do stuff with graphs
+
                 } else {
                     mBinding.setIsLoading(true);
                 }
+                mBinding.executePendingBindings();
             }
         });
     }
@@ -160,7 +174,7 @@ public class LineChartFragment extends Fragment {
                 while (true) {
                     plotData = true;
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -171,9 +185,9 @@ public class LineChartFragment extends Fragment {
         thread.start();
     }
 
-    private void addEntry(SensorEvent event) {
+    private void addEntry(SensorValueEntity valueEntity) {
 
-        LineData lineData = mBinding.linechartExample.getData();
+        lineData = mBinding.linechartExample.getData();
 
         if (lineData != null) {
             ILineDataSet set = lineData.getDataSetByIndex(0);
@@ -184,18 +198,34 @@ public class LineChartFragment extends Fragment {
                 lineData.addDataSet(set);
             }
 
-            //lineData.addEntry(new Entry(set.getEntryCount(), (float) (Math.random() * 2) + 5f), 0);
-            lineData.addEntry(new Entry(set.getEntryCount(), event.values[0] + 6f), 0);
+            long xOld = valueEntity.getDate().getTime() / 1000;
+            float xNew = xOld - refe_timestamp;
+            float y = (float) valueEntity.getValue();
+            long z = (Calendar.getInstance().getTime().getTime() / 1000) - xOld;
+            Log.i(TAG, "addEntry: 4 : Value: " + y + " Time Old: " + xOld);
+            Log.i(TAG, "addEntry: 5 : Value:" + y + " Time New: " + xNew);
+
+
+            lineData.addEntry(new Entry(xNew, y), 0);
             //notify data and chart that the data has been changed
+
             lineData.notifyDataChanged();
             mBinding.linechartExample.notifyDataSetChanged();
+
+
             //max number of entries shown on each axis
+
+
             mBinding.linechartExample.setVisibleXRangeMaximum(100);
+
+
             //mBinding.linechartExample.setVisibleYRangeMaximum(30, YAxis.AxisDependency.LEFT);
 
             //move to the latest entry
-
             mBinding.linechartExample.moveViewToX(lineData.getEntryCount());
+
+            Log.i(TAG, "addEntry: 6: Number: " + lineData.getEntryCount());
+
 
         }
     }
@@ -203,13 +233,12 @@ public class LineChartFragment extends Fragment {
     private LineDataSet createSet() {
         LineDataSet set = new LineDataSet(null, "Dynamic Data");
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setLineWidth(4f);
         set.setColor(Color.BLUE);
         set.setHighlightEnabled(true);
-        set.setDrawValues(false);
-        set.setDrawCircles(false);
-        set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        set.setCubicIntensity(0.2f);
+        set.setDrawValues(true);
+        set.setDrawCircles(true);
+        set.setMode(LineDataSet.Mode.LINEAR);
+        set.setLineWidth(2f);
         return set;
     }
 
@@ -221,13 +250,11 @@ public class LineChartFragment extends Fragment {
             thread.interrupt();
         }
 
-//        mSensorManager.unregisterListener(this);
     }
 
     @Override
     public void onDestroy() {
 
-//        mSensorManager.unregisterListener(LineChartFragment.this);
         thread.interrupt();
         super.onDestroy();
     }
@@ -235,20 +262,50 @@ public class LineChartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
-//    @Override
-//    public void onSensorChanged(SensorEvent event) {
-//
-//        if (plotData) {
-//            addEntry(event);
-//            plotData = false;
-//        }
-//    }
+    public class HourAxisValueFormatter implements IAxisValueFormatter {
 
-//    @Override
-//    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//        //do somth if accuracy changes
-//    }
+        private long referenceTimestamp; // minimum timestamp in your data set
+        private DateFormat mDataFormat;
+        private Date mDate;
+
+        public HourAxisValueFormatter(long referenceTimestamp) {
+            this.referenceTimestamp = referenceTimestamp;
+            this.mDataFormat = new SimpleDateFormat("HH:mm:ss");
+            this.mDate = new Date();
+        }
+
+
+        /**
+         * Called when a value from an axis is to be formatted
+         * before being drawn. For performance reasons, avoid excessive calculations
+         * and memory allocations inside this method.
+         *
+         * @param value the value to be formatted
+         * @param axis  the axis the value belongs to
+         * @return
+         */
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            // convertedTimestamp = originalTimestamp - referenceTimestamp
+            long convertedTimestamp = (long) value;
+
+            // Retrieve original timestamp
+            long originalTimestamp = referenceTimestamp + convertedTimestamp;
+
+            // Convert timestamp to hour:minute
+            return getHour(originalTimestamp);
+        }
+
+        private String getHour(long timestamp) {
+            try {
+                mDate.setTime(timestamp * 1000);
+                return mDataFormat.format(mDate);
+            } catch (Exception ex) {
+                return "xx";
+            }
+        }
+    }
+
 }

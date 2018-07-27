@@ -20,6 +20,9 @@ public interface SensorValueDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SensorValueEntity valueEntity);
 
+    @Query("SELECT * FROM sensorValues")
+    LiveData<List<SensorValueEntity>> loadAllSensorValues();
+
     @Query("SELECT * FROM sensorValues ORDER BY date DESC LIMIT 1")
     SensorValueEntity getLastSensorEntry();
 

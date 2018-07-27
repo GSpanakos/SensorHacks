@@ -65,7 +65,7 @@ public class SensorFragment extends Fragment {
         mBinding.jumpToGraphs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Graphs.class);
+                Intent intent = new Intent(getContext(), Graphs.class);
                 intent.putExtra("id", mSensor.getId());
                 intent.putExtra("name", mSensor.getName());
                 intent.putExtra("destinationChart", "LineChartFragment");

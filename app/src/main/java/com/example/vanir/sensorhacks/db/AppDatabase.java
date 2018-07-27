@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Γιώργος on 16/1/2018.
  */
 
-@Database(entities = {SensorEntity.class, ActuatorEntity.class, SensorValueEntity.class}, version = 9, exportSchema = true)
+@Database(entities = {SensorEntity.class, ActuatorEntity.class, SensorValueEntity.class}, version = 10, exportSchema = true)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -76,7 +76,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     database.setDatabaseCreated();
                 });
             }
-        }).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build();
+        }).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10).build();
     }
 
     /**
@@ -167,6 +167,17 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE newSensorValues (row INTEGER, id INTEGER NOT NULL, name TEXT NOT NULL, date TEXT, value REAL NOT NULL, PRIMARY KEY(row), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE sensorValues");
+            database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
+            database.execSQL("CREATE INDEX index_sensorValues_id_name on sensorValues (id, name)");
+
+        }
+    };
+
+    public static final Migration MIGRATION_9_10 = new Migration(9, 10) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE newSensorValues (row INTEGER, id INTEGER NOT NULL, name TEXT NOT NULL, date INTEGER, value REAL NOT NULL, PRIMARY KEY(row), FOREIGN KEY(id, name) REFERENCES sensors(id, name) ON DELETE CASCADE)");
             database.execSQL("DROP TABLE sensorValues");
             database.execSQL("ALTER TABLE newSensorValues RENAME TO sensorValues");
             database.execSQL("CREATE INDEX index_sensorValues_id_name on sensorValues (id, name)");

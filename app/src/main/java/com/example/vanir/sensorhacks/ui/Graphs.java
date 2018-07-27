@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,6 +21,8 @@ import java.util.Objects;
  */
 public class Graphs extends AppCompatActivity {
 
+    private static final String TAG = "Graphs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,37 +31,44 @@ public class Graphs extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
 
-
-        switch (intent.getStringExtra("destinationChart")) {
-            case "LineChartFragment":
-                LineChartFragment lineChartFragment = new LineChartFragment();
-                Bundle args = new Bundle();
-                args.putInt("id", getIntent().getExtras().getInt("id"));
-                args.putString("name", getIntent().getExtras().getString("name"));
-                lineChartFragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction().addToBackStack("lf").replace(R.id.chart_container, lineChartFragment, null).commit();
-                break;
-            case "BarChartFragment":
-                BarChartFragment barChartFragment = new BarChartFragment();
-                Bundle args2 = new Bundle();
-                args2.putInt("id", getIntent().getExtras().getInt("id"));
-                args2.putString("name", getIntent().getExtras().getString("name"));
-                barChartFragment.setArguments(args2);
-                break;
-            default:
-                if (savedInstanceState == null) {
-                    GraphsFrag fragment = new GraphsFrag();
-                    getSupportFragmentManager().beginTransaction().add(R.id.chart_container, fragment, null).commit();
-                }
+        if (intent.getStringExtra("destinationChart") != null) {
+            Bundle bd = intent.getExtras();
+            switch (intent.getStringExtra("destinationChart")) {
+                case "LineChartFragment":
+                    LineChartFragment lineChartFragment = new LineChartFragment();
+                    Bundle args = new Bundle();
+                    if (bd != null) {
+                        args.putInt("id", bd.getInt("id"));
+                        args.putString("name", bd.getString("name"));
+                        args.putString("destinationChart", bd.getString("destinationChart"));
+                        lineChartFragment.setArguments(args);
+                        getSupportFragmentManager().beginTransaction().addToBackStack("lf").replace(R.id.chart_container, lineChartFragment, null).commit();
+                    } else {
+                        Log.i(TAG, "onCreate: no id or name provided");
+                    }
+                    break;
+                case "BarChartFragment":
+                    BarChartFragment barChartFragment = new BarChartFragment();
+                    Bundle args2 = new Bundle();
+                    if (bd != null) {
+                        args2.putInt("id", bd.getInt("id"));
+                        args2.putString("name", bd.getString("name"));
+                        barChartFragment.setArguments(args2);
+                    } else {
+                        Log.i(TAG, "onCreate: no id or name provided");
+                    }
+                    break;
+            }
+        } else {
+            if (savedInstanceState == null) {
+                GraphsFrag fragment = new GraphsFrag();
+                getSupportFragmentManager().beginTransaction().replace(R.id.chart_container, fragment, null).commit();
+            }
         }
 
-        if (savedInstanceState == null) {
-            GraphsFrag fragment = new GraphsFrag();
-            getSupportFragmentManager().beginTransaction().add(R.id.chart_container, fragment, null).commit();
-        }  //else if (Objects.equals(getIntent().getStringExtra("EXTRA"), "here goes info of id and name")) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.chart_container, new LineChartFragment()).commit();
-//        }
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

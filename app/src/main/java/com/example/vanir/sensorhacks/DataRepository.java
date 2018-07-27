@@ -52,7 +52,7 @@ public class DataRepository {
                     }
                 });
 
-        mObservableSensorValues.addSource(mDatabase.sensorValueDao().getValuesOnIdandName(id, name),
+        mObservableSensorValues.addSource(mDatabase.sensorValueDao().loadAllSensorValues(),
                 sensorValueEntities -> {
                     if (mDatabase.getDatabaseCreated().getValue() != null) {
                         mObservableSensorValues.postValue(sensorValueEntities);
@@ -126,6 +126,10 @@ public class DataRepository {
 
     public SensorValueEntity getLastSensorEntry() {
         return mDatabase.sensorValueDao().getLastSensorEntry();
+    }
+
+    public LiveData<List<SensorValueEntity>> loadAllSensorValues() {
+        return mObservableSensorValues;
     }
 
     public LiveData<List<SensorValueEntity>> getValuesOnIdandName(int id, String name) {

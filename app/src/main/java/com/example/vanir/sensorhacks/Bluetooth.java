@@ -15,6 +15,7 @@ import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
 import java.io.IOException;
+import java.lang.Math;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -159,19 +160,19 @@ public class Bluetooth {
                             final String string = new String(rawBytes);
                             stringBuffer.append(string);
 
-                            Log.i(TAG, "papakia: " + Bluetooth.this.stringBuffer);
+                            //Log.i(TAG, "papakia: " + Bluetooth.this.stringBuffer);
 
-                            if ((stringBuffer.length()) > 50) {
+                            if ((stringBuffer.length()) > 300) {
                                 stringBuffer = new StringBuffer(buffer.length);
                             }
 
                             String sstring[] = stringBuffer.toString().split("~");
-                            Log.i(TAG, "SPLIIIIIIIIIIT" + Arrays.toString(sstring));
+                            //Log.i(TAG, "SPLIIIIIIIIIIT" + Arrays.toString(sstring));
                             if (sstring.length > 1) {
                                 updateValue(sstring[sstring.length - 2]);
                             }
 
-                            Log.i(TAG, "an doulevei allagi sensorid: " + stringBuffer);
+                            //Log.i(TAG, "an doulevei allagi sensorid: " + stringBuffer);
 
                             /** usefull only for UI calls, like textview editing **/
 //                            handler.post(new Runnable() {
@@ -206,13 +207,16 @@ public class Bluetooth {
 
     private static class UpdateSensorValueTask extends AsyncTask<Double, Void, Void> {
 
+        static Date date;
+
+
         @Override
         protected Void doInBackground(Double... doubles) {
             mRepository.updateSensorValue(doubles[0], Sensors.mSensorId);
 
-            Date date = Calendar.getInstance().getTime();
+            date = Calendar.getInstance().getTime();
             SensorValueEntity mockValue = mRepository.getLastSensorEntry();
-            SimpleDateFormat secFormat = new SimpleDateFormat("mmss");
+            // SimpleDateFormat secFormat = new SimpleDateFormat("mmss");
 
             if (mockValue == null) {
                 mRepository.insertSensorValue(new SensorValueEntity(Sensors.mSensorId, Sensors.mSensorName, date, doubles[0]));
@@ -220,18 +224,18 @@ public class Bluetooth {
             }
 
 
-//            Log.i(TAG, "doInBackground: TWRA - DB = " + secFormat.format(date) + " - " + secFormat.format(mockValue.getDate()));
-//            Log.i(TAG, "doInBackground: DIAFORA: " + (Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))));
+            Log.i(TAG, "doInBackground: 1 NOW - DB = " + (date.getTime() / 1000) + " - " + mockValue.getDate().getTime() / 1000);
+            Log.i(TAG, "doInBackground: 2 DIFFERENCE: " + ((date.getTime() / 1000) - mockValue.getDate().getTime() / 1000));
 
-            if ((Long.parseLong(secFormat.format(date)) - Long.parseLong(secFormat.format(mockValue.getDate()))) < 3) {
-                Log.i(TAG, "doInBackground: skipped entry due to same date");
+            if ((date.getTime() / 1000) - (mockValue.getDate().getTime()) / 1000 < 3) {
+                Log.i(TAG, "doInBackground: 3-A Skipped entry due to same date");
             } else {
-//                Log.i(TAG, "Metrhseis pou THA mpoun: ID: " + Sensors.mSensorId + " NAME: " + Sensors.mSensorName + " DATE: " + date + " VALUE: " + doubles[0]);
+                Log.i(TAG, "doInBackground: 3-B FOR ENTRY: ID: " + Sensors.mSensorId + " NAME: " + Sensors.mSensorName + " DATE: " + date + " VALUE: " + doubles[0]);
                 mRepository.insertSensorValue(new SensorValueEntity(Sensors.mSensorId, Sensors.mSensorName, date, doubles[0]));
             }
 
 
-//            Log.i(TAG, "doInBackground: TELEFTEO ENTRY: ID: " + mockValue.getId() + " NAME: " + mockValue.getName() + " DATE: " + mockValue.getDate() + " VALUE: " + mockValue.getValue());
+            //Log.i(TAG, "doInBackground: TELEFTEO ENTRY: ID: " + mockValue.getId() + " NAME: " + mockValue.getName() + " DATE: " + mockValue.getDate() + " VALUE: " + mockValue.getValue());
 
 
             return null;
