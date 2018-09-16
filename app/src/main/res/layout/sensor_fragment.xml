@@ -31,228 +31,232 @@
             layout="@layout/sensor_item"
             app:sensor="@{sensorViewModel.sensor}" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/layout_edit_sns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/editBtnDescrptn"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/edit_sensor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_edit_black_18dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/edit_sensor"
-                    android:background="@android:color/darker_gray" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/layout_connect_to_ardu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/layout_edit_sns">
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/connect_to_rdu"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/connect_to_rdu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:onClick="onConnect"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_sync_black_18dp" />
-
-                <View
+                <RelativeLayout
+                    android:id="@+id/layout_edit_sns"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/connect_to_rdu"
-                    android:background="@android:color/darker_gray" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/editBtnDescrptn"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/edit_sensor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_edit_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/edit_sensor"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_connect_to_ardu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_edit_sns">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/connect_to_rdu"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/connect_to_rdu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_sync_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/connect_to_rdu"
+                        android:background="@android:color/darker_gray" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_fetch_sensor_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_connect_to_ardu">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/downloadsensordata"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/fetch_sensor_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:onClick="onSendParametersForFetch"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_cloud_download_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/fetch_sensor_data"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_stop_sync"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_fetch_sensor_data">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/stop_downloading"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/stop_syncing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_sync_disabled_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/stop_syncing"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_jump_to_graphs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_stop_sync">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/jumpToGraphs"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/jump_to_graphs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_equalizer_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/jump_to_graphs"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_delete_sns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/layout_jump_to_graphs">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/minusBtnDescrptn"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/elements_options" />
+
+                    <ImageButton
+                        android:id="@+id/delete_sensor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/colorWhite"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/round_delete_black_18dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/delete_sensor"
+                        android:background="@android:color/darker_gray" />
+
+
+                </RelativeLayout>
+
 
             </RelativeLayout>
 
-
-            <RelativeLayout
-                android:id="@+id/layout_fetch_sensor_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_connect_to_ardu">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/downloadsensordata"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/fetch_sensor_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:onClick="onSendParametersForFetch"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_cloud_download_black_18dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/fetch_sensor_data"
-                    android:background="@android:color/darker_gray" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layout_stop_sync"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_fetch_sensor_data">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/stop_downloading"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/stop_syncing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:onClick="onStopDownloading"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_sync_disabled_black_18dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/stop_syncing"
-                    android:background="@android:color/darker_gray" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layout_jump_to_graphs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_stop_sync">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/jumpToGraphs"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/jump_to_graphs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_equalizer_black_18dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/jump_to_graphs"
-                    android:background="@android:color/darker_gray" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/layout_delete_sns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout_jump_to_graphs">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/minusBtnDescrptn"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/elements_options" />
-
-                <ImageButton
-                    android:id="@+id/delete_sensor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/colorWhite"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/round_delete_black_18dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/delete_sensor"
-                    android:background="@android:color/darker_gray" />
-
-
-            </RelativeLayout>
-
-
-        </RelativeLayout>
+        </ScrollView>
 
 
     </LinearLayout>

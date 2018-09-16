@@ -126,6 +126,7 @@ public class LineChartFragment extends Fragment {
 
             final LineChartViewModel viewModel =
                     ViewModelProviders.of(this, factory).get(LineChartViewModel.class);
+
             subscribeUi(viewModel);
         } else {
             LineChartViewModel.Factory factory = new LineChartViewModel.Factory(
@@ -147,7 +148,7 @@ public class LineChartFragment extends Fragment {
                     //reference_timestamp = Float.parseFloat(Converters.dateToTimeStamp(sensorValueEntities.get(0).getDate()));
                     mBinding.setIsLoading(false);
                     if (plotData) {
-                        Log.i(TAG, "onChanged: SUBSCRIBER CALLED");
+                        Log.i(TAG, "onChanged: SUBSCRIBER CALLED:");
                         addEntry(sensorValueEntities.get(sensorValueEntities.size() - 1));
                         plotData = false;
 

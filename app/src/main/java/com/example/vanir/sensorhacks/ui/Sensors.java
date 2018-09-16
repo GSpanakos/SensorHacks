@@ -205,6 +205,11 @@ public class Sensors extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            Bluetooth.updateStatus(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Bluetooth.deviceConnected = false;
         Log.i(TAG, "\nonStopDownloading: Connection Closed\n");
 

@@ -1,22 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="isLoading"
+            type="boolean" />
+
+        <variable
+            name="barChartViewmodel"
+            type="com.example.vanir.sensorhacks.viewmodel.BarChartViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:visibility="visible"
-        android:paddingTop="@dimen/margin_top_from_bar">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_top_from_bar"
+        android:visibility="visible">
 
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barchart_example"
+        <TextView
+            android:id="@+id/loading_tvBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Loading Values..."
+            android:textAlignment="center"
+            app:visibleGone="@{isLoading}" />
 
-        </com.github.mikephil.charting.charts.BarChart>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/giveIdButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="Give Sensor Id"
+                    android:visibility="visible" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/unique_id_in_BarChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/Id_Hint"
+                        android:inputType="number"
+                        android:text="@string/Sensor_Id"
+                        android:visibility="visible" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/clearButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Clear Chart Data"
+                android:visibility="visible" />
+
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart_example"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                app:visibleGone="@{!isLoading}">
+
+            </com.github.mikephil.charting.charts.BarChart>
+
+        </LinearLayout>
 
     </LinearLayout>
 

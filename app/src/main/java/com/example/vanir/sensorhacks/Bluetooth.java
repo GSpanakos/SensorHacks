@@ -10,7 +10,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.db.SensorValueEntity;
+import com.example.vanir.sensorhacks.model.Sensor;
 import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
 
@@ -146,6 +148,7 @@ public class Bluetooth {
 
     private void beginListenForData() {
         //final Handler handler = new Handler();
+        updateState(true);
         stopThread = false;
         buffer = new byte[1024];
         stringBuffer = new StringBuffer(buffer.length);
@@ -193,6 +196,31 @@ public class Bluetooth {
         });
 
         thread.start();
+    }
+
+    public static void updateStatus(Boolean status) {
+        updateState(status);
+    }
+
+    private static void updateState(Boolean status) {
+        UpdateSensorStatusTask task = new UpdateSensorStatusTask();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                task.execute(status);
+            }
+        });
+    }
+
+    private static class UpdateSensorStatusTask extends AsyncTask<Boolean, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Boolean... booleans) {
+            SensorEntity sensorEntity = mRepository.loadSensorSync(Sensors.mSensorId);
+            SensorEntity newSensorEntity = new SensorEntity(sensorEntity.getId(), sensorEntity.getName(), sensorEntity.getType(), booleans[0], sensorEntity.getValue());
+            mRepository.updateSensor(newSensorEntity);
+            return null;
+        }
     }
 
     private void updateValue(String string) {

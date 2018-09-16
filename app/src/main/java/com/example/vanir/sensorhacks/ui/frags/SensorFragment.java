@@ -1,5 +1,6 @@
 package com.example.vanir.sensorhacks.ui.frags;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -13,13 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vanir.sensorhacks.Bluetooth;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.SensorFragmentBinding;
 import com.example.vanir.sensorhacks.db.SensorEntity;
 import com.example.vanir.sensorhacks.ui.Graphs;
 import com.example.vanir.sensorhacks.ui.Sensors;
 import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
-
 
 
 /**
@@ -44,6 +45,34 @@ public class SensorFragment extends Fragment {
         //needed for textview horizontal scrolling/marqueeing
         mBinding.sensorFragForMarqueeId.setSelected(true);
 
+
+        mBinding.stopSyncing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                if (activity instanceof Sensors) {
+                    ((Sensors) activity).onStopDownloading(v);
+                    mBinding.fetchSensorData.setEnabled(false);
+                    mBinding.stopSyncing.setEnabled(false);
+                    mBinding.jumpToGraphs.setEnabled(false);
+                    mBinding.connectToRdu.setEnabled(true);
+                }
+            }
+        });
+
+        mBinding.connectToRdu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                if (activity instanceof Sensors) {
+                    ((Sensors) activity).onConnect(v);
+                    mBinding.fetchSensorData.setEnabled(true);
+                    mBinding.stopSyncing.setEnabled(true);
+                    mBinding.jumpToGraphs.setEnabled(true);
+                    mBinding.connectToRdu.setEnabled(false);
+                }
+            }
+        });
 
         mBinding.deleteSensor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +110,12 @@ public class SensorFragment extends Fragment {
 //                Sensors.onDownloadData(v, mSensorId);
 //            }
 //        });
+
+
+        mBinding.fetchSensorData.setEnabled(false);
+        mBinding.stopSyncing.setEnabled(false);
+        mBinding.jumpToGraphs.setEnabled(false);
+        mBinding.connectToRdu.setEnabled(true);
 
         return mBinding.getRoot();
     }

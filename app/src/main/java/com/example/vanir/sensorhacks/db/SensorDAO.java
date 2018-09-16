@@ -54,5 +54,4 @@ public interface SensorDAO {
     @Query("DELETE FROM sensors")
     void removeAllSensors();
 
-
 }
