@@ -132,6 +132,10 @@ public class DataRepository {
         return mObservableSensorValues;
     }
 
+    public List<SensorValueEntity> loadAllSensorValuesSync(int id) {
+        return mDatabase.sensorValueDao().loadAllSensorValuesSync(id);
+    }
+
     public LiveData<List<SensorValueEntity>> getValuesOnIdandName(int id, String name) {
         this.id = id;
         this.name = name;

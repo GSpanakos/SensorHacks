@@ -29,6 +29,9 @@ public interface SensorValueDao {
     @Query("SELECT * FROM sensorValues WHERE id = :id AND name = :name")
     LiveData<List<SensorValueEntity>> getValuesOnIdandName(int id, String name);
 
+    @Query("SELECT * FROM sensorValues WHERE id = :id")
+    List<SensorValueEntity> loadAllSensorValuesSync(int id);
+
 //    @Query("SELECT value, timestamp FROM sensorValues WHERE id = :id AND name = :name")
 //    List<SensorValueEntity> loadValuesforSensor(int id, String name);
 }

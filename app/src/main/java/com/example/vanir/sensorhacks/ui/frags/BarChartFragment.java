@@ -1,9 +1,11 @@
 package com.example.vanir.sensorhacks.ui.frags;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +17,6 @@ import android.view.ViewGroup;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.SensorValueEntity;
 import com.example.vanir.sensorhacks.viewmodel.BarChartViewModel;
-import com.example.vanir.sensorhacks.viewmodel.LineChartViewModel;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,12 +24,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import com.example.vanir.sensorhacks.databinding.BarchartFragmentBinding;
 
@@ -47,17 +44,50 @@ public class BarChartFragment extends Fragment {
 
     //public View view;
     //public BarChart barChart;
+    private static List<SensorValueEntity> mSensorValuesOnId;
     public BarchartFragmentBinding mBinding;
     private final long refe_timestamp = 1532649714;
     private Thread thread;
     private boolean plotData = true;
     private BarData barData;
     private static final String TAG = "BarChartFragment";
+    private int sensorId = 1;
+    private MutableLiveData<Integer> mSensorId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         //view = inflater.inflate(R.layout.barchart_fragment, container, false);
         mBinding = DataBindingUtil.inflate(inflater, R.layout.barchart_fragment, container, false);
+        mSensorId = new MutableLiveData<>();
+
+        mSensorId.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                sensorId = mSensorId.getValue();
+                updateBarUi(sensorId);
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mSensorValuesOnId != null) {
+                            for (int i = mSensorValuesOnId.size() - 5; i < mSensorValuesOnId.size(); i++) {
+                                addEntry(mSensorValuesOnId.get(i));
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        mBinding.giveIdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barData.clearValues();
+                mBinding.barchartExample.invalidate();
+                sensorId = Integer.parseInt(mBinding.uniqueIdInBarChart.getText().toString());
+                mSensorId.setValue(sensorId);
+            }
+        });
+
         mBinding.clearButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +162,18 @@ public class BarChartFragment extends Fragment {
 //        barData.setBarWidth(0.9f);
 
 
-
         return mBinding.getRoot();
 
+    }
+
+    private void updateBarUi(int sensorId) {
+        UpdateBarUiTask task = new UpdateBarUiTask();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                task.execute(sensorId);
+            }
+        });
     }
 
     @Override
@@ -142,7 +181,7 @@ public class BarChartFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         BarChartViewModel.Factory factory = new BarChartViewModel.Factory(
-                getActivity().getApplication(), 1, null);
+                getActivity().getApplication(), sensorId, null);
 
         final BarChartViewModel viewModel =
                 ViewModelProviders.of(this, factory).get(BarChartViewModel.class);
@@ -175,7 +214,6 @@ public class BarChartFragment extends Fragment {
         });
     }
 
-
     private void feedMultiple() {
 
         if (thread != null) {
@@ -199,7 +237,7 @@ public class BarChartFragment extends Fragment {
         thread.start();
     }
 
-    private void addEntry(SensorValueEntity valueEntity) {
+    public void addEntry(SensorValueEntity valueEntity) {
 
         barData = mBinding.barchartExample.getData();
 
@@ -335,4 +373,31 @@ public class BarChartFragment extends Fragment {
         }
     }
 
+    private static class UpdateBarUiTask extends AsyncTask<Integer, Void, Void> {
+
+        private int flagId = 0;
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+
+            List<Integer> sensorIds = BarChartViewModel.nRepository.loadSensorIds();
+
+            if (sensorIds.size() != 0) {
+                for (int i = 0; i < sensorIds.size(); i++) {
+                    if (sensorIds.get(i) == integers[0]) {
+                        Log.d(TAG, "run: Eisai mpoufos vale allo id");
+                        flagId = 1;
+                        break;
+                    }
+                }
+            }
+
+            if (flagId == 1) {
+                mSensorValuesOnId = BarChartViewModel.nRepository.loadAllSensorValuesSync(integers[0]);
+                flagId = 0;
+            }
+
+            return null;
+        }
+    }
 }

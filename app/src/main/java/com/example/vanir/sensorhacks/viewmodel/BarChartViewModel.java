@@ -25,9 +25,11 @@ public class BarChartViewModel extends AndroidViewModel {
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<SensorValueEntity>> mObservableSensorValues;
     private static final String TAG = "fetch_snr_vals_from_db";
-    private static DataRepository nRepository;
+    public static DataRepository nRepository;
     private static int mId;
     private static String mName;
+    private List<SensorValueEntity> mSensorValuesOnId;
+    private static int flagId = 0;
 
 
     public BarChartViewModel(@NonNull Application application, DataRepository repository, final int sensorId, final String sensorName) {
@@ -43,6 +45,8 @@ public class BarChartViewModel extends AndroidViewModel {
 
         // observe the changes of the sensors from the database and forward them
         mObservableSensorValues.addSource(sensorValues, mObservableSensorValues::setValue);
+
+
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
@@ -67,9 +71,9 @@ public class BarChartViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<SensorValueEntity>> getValueOnIdandName() {
-        return mObservableSensorValues;
-    }
+//    public List<SensorValueEntity> getValuesOnIdandName() {
+//        return mSensorValuesOnId;
+//    }
 
     public LiveData<List<SensorValueEntity>> loadAllSensorValues() {
         return mObservableSensorValues;

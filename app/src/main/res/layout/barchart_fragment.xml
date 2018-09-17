@@ -11,6 +11,7 @@
         <variable
             name="barChartViewmodel"
             type="com.example.vanir.sensorhacks.viewmodel.BarChartViewModel" />
+
     </data>
 
     <LinearLayout
