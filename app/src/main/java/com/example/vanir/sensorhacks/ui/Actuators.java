@@ -1,5 +1,7 @@
 package com.example.vanir.sensorhacks.ui;
 
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +17,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.vanir.sensorhacks.BasicApp;
+import com.example.vanir.sensorhacks.Bluetooth;
+import com.example.vanir.sensorhacks.DataRepository;
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
 import com.example.vanir.sensorhacks.model.Actuator;
 import com.example.vanir.sensorhacks.ui.frags.ActuatorFragment;
 import com.example.vanir.sensorhacks.ui.frags.ActuatorListFragment;
 import com.example.vanir.sensorhacks.ui.frags.AddActuatorFragment;
+import com.example.vanir.sensorhacks.ui.frags.SensorFragment;
+import com.example.vanir.sensorhacks.viewmodel.SensorViewModel;
+
+import java.io.IOException;
 
 
 /**
@@ -31,6 +40,8 @@ public class Actuators extends AppCompatActivity {
     public DrawerLayout drawerLayout;
     public FloatingActionButton fab;
     private static final String TAG = "Actuators";
+    private Boolean mFlag;
+    private String mString = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -150,6 +161,71 @@ public class Actuators extends AppCompatActivity {
     public void startgrp(View view) {
         Intent intent = new Intent(Actuators.this, Graphs.class);
         startActivity(intent);
+    }
+
+    public void onSendLEDSignal(View v, Boolean isChecked) {
+
+        Context context = getApplicationContext();
+        Application application = getApplication();
+        DataRepository repository = ((BasicApp) application).getRepository();
+        Bluetooth bluetooth = new Bluetooth(repository, context);
+        mFlag = bluetooth.onConnect();
+
+        if (mFlag) {
+            if (isChecked) {
+                String string = "LEDON";
+                string.concat("\n");
+                mString = string;
+            } else {
+                String string = "LEDOFF";
+                string.concat("\n");
+                mString = string;
+            }
+
+            try {
+                Bluetooth.outputStream.write(mString.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // textView.append("\nSent Data:" + stringBuffer + "\n");
+
+            Log.i(TAG, "onSendLEDSignal: Data Sent" + mString);
+        }
+
+    }
+
+    public void onStopLed(View v) {
+        final String string = "Stop";
+        string.concat("\n");
+        try {
+            Bluetooth.outputStream.write(string.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bluetooth.stopThread = true;
+        try {
+            Bluetooth.outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Bluetooth.inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Bluetooth.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Bluetooth.updateStatus(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Bluetooth.deviceConnected = false;
+        Log.i(TAG, "\nonStopDownloading: Connection Closed\n");
     }
 
 }

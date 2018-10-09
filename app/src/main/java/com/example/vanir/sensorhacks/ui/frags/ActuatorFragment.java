@@ -1,5 +1,6 @@
 package com.example.vanir.sensorhacks.ui.frags;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -10,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.example.vanir.sensorhacks.R;
 import com.example.vanir.sensorhacks.databinding.ActuatorFragmentBinding;
 import com.example.vanir.sensorhacks.db.ActuatorEntity;
+import com.example.vanir.sensorhacks.ui.Actuators;
 import com.example.vanir.sensorhacks.viewmodel.ActuatorViewModel;
 
 /**
@@ -38,6 +41,26 @@ public class ActuatorFragment extends Fragment {
 
         //needed for textview horizontal scrolling/marqueeing
         mBinding.actuatorFragForMarqueeId.setSelected(true);
+
+        mBinding.disconnectLED.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                if (activity instanceof Actuators) {
+                    ((Actuators) activity).onStopLed(v);
+                }
+            }
+        });
+
+        mBinding.switchLED.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Activity activity = getActivity();
+                if (activity instanceof Actuators) {
+                    ((Actuators) activity).onSendLEDSignal(buttonView, isChecked);
+                }
+            }
+        });
 
         mBinding.deleteActuator.setOnClickListener(new View.OnClickListener() {
             @Override

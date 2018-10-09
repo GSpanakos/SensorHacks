@@ -15,6 +15,8 @@
     <string name="minusActBtnDescrptn">Delete Actuator</string>
     <string name="editActBtnDescrptn">Edit Actuator</string>
     <string name="Spinner_Prompt">Select a Type</string>
+    <string name="switchLED">LED Control</string>
+    <string name="stopLED">Disconnect</string>
 
     <string name="edit_text_location">Location</string>
     <string name="plusBtnDescrptn">Add Sensor</string>

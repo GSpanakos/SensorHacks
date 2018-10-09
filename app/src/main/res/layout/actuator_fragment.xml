@@ -36,21 +36,144 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin">
 
+            <RelativeLayout
+                android:id="@+id/layout_edit_act"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/edit_actuator"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/editActBtnDescrptn"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/elements_options" />
+
+
+                <ImageButton
+                    android:id="@+id/edit_actuator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/round_edit_black_18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/edit_actuator"
+                    android:background="@android:color/darker_gray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_stop_LED"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:text="@string/editActBtnDescrptn" />
+                android:layout_below="@id/layout_edit_act">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/stop_downloading"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/elements_options" />
+
+                <ImageButton
+                    android:id="@+id/disconnect_LED"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/round_sync_disabled_black_18dp" />
 
 
-            <Button
-                android:id="@+id/delete_actuator"
-                android:layout_width="wrap_content"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/disconnect_LED"
+                    android:background="@android:color/darker_gray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_switchLED"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/minusActBtnDescrptn" />
+                android:layout_below="@id/layout_stop_LED">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+
+                    android:text="@string/switchLED"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/elements_options" />
+
+                <Switch
+                    android:id="@+id/switchLED"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/switchLED"
+                    android:background="@android:color/darker_gray" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_delete_act"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_switchLED">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/minusActBtnDescrptn"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/elements_options" />
+
+                <ImageButton
+                    android:id="@+id/delete_actuator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/round_delete_black_18dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/delete_actuator"
+                    android:background="@android:color/darker_gray" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
